@@ -10,7 +10,7 @@
 #import "UIView+CLSetRect.h"
 
 //输入框高度
-#define kInputHeight 38
+#define kInputHeight 34
 //按钮高
 #define kButtonH 30
 //按钮宽
@@ -22,22 +22,20 @@
 
 
 @interface CLInputToolbar ()<UITextViewDelegate>
-
-/***文本输入框最高高度***/
+/**textView占位符*/
+@property (nonatomic,strong)UILabel *placeholderLabel;
+/**文本输入框最高高度*/
 @property (nonatomic, assign)NSInteger textInputMaxHeight;
-
-/***文本输入框高度***/
+/**文本输入框高度*/
 @property (nonatomic, assign)CGFloat textInputHeight;
-
-/***键盘高度***/
+/**键盘高度*/
 @property (nonatomic, assign)CGFloat keyboardHeight;
-
-/***当前键盘是否可见*/
-@property (nonatomic,assign)BOOL keyboardIsVisiable;
-// 发送按钮
-@property (nonatomic, strong) UIButton *sendBtn;
-
-@property (nonatomic,assign) CGFloat origin_y;
+/**当前键盘是否可见*/
+@property (nonatomic, assign)BOOL keyboardIsVisiable;
+/**发送按钮*/
+@property (nonatomic, strong)UIButton *sendBtn;
+/**原始Y*/
+@property (nonatomic, assign)CGFloat origin_y;
 /**间隙*/
 @property (nonatomic, assign)CGFloat padding;
 
@@ -49,34 +47,16 @@
     if (self = [super initWithFrame:frame]) {
         self.origin_y = frame.origin.y;
         [self initView];
-        [self setupSubviews];
         [self addEventListening];
     }
     return self;
 }
 
 -(void)initView {
-    self.backgroundColor = [UIColor redColor];
+    self.backgroundColor = [UIColor whiteColor];
     if (!self.textViewMaxLine || self.textViewMaxLine == 0) {
         self.textViewMaxLine = 4;
     }
-}
-- (void)setTextViewMaxLine:(NSInteger)textViewMaxLine {
-    _textViewMaxLine = textViewMaxLine;
-    _textInputMaxHeight = ceil(self.textInput.font.lineHeight * (textViewMaxLine - 1) +
-                               self.textInput.textContainerInset.top + self.textInput.textContainerInset.bottom);
-}
-
-// 添加通知
--(void)addEventListening {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHidden:) name:UIKeyboardWillHideNotification object:nil];
-}
-
-/**
- 初始化UI
- */
--(void)setupSubviews {
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.CLwidth, 0.5)];
     line.backgroundColor = RGBACOLOR(227, 228, 232, 1);
     [self addSubview:line];
@@ -90,7 +70,6 @@
     self.textInput.CLcenterY = self.CLheight * 0.5;
     self.textInput.font = [UIFont systemFontOfSize:15];
     self.textInput.layer.cornerRadius = 5;
-    //    self.textInput.layer.borderColor = [UIColor colorWithRed:210 green:210 blue:210 alpha:1].CGColor;
     self.textInput.layer.borderColor = RGBACOLOR(227, 228, 232, 1).CGColor;
     self.textInput.layer.borderWidth = 1;
     self.textInput.layer.masksToBounds = YES;
@@ -106,9 +85,6 @@
     self.placeholderLabel.CLcenterY = self.CLheight * 0.5;
     self.placeholderLabel.textColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
     self.placeholderLabel.font = self.textInput.font;
-    if (!self.placeholderLabel.text.length) {
-        self.placeholderLabel.text = @" ";
-    }
     [self addSubview:self.placeholderLabel];
     
     self.sendBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.CLwidth - kButtonW - 10, self.CLheight - kButtonH - kButtonMargin, kButtonW, kButtonH)];
@@ -122,6 +98,22 @@
     [self.sendBtn setTitleColor:RGBACOLOR(0, 0, 0, 0.2) forState:UIControlStateNormal];
     [self.sendBtn addTarget:self action:@selector(didClickSendBtn) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.sendBtn];
+}
+- (void)setTextViewMaxLine:(NSInteger)textViewMaxLine {
+    _textViewMaxLine = textViewMaxLine;
+    _textInputMaxHeight = ceil(self.textInput.font.lineHeight * (textViewMaxLine - 1) +
+                               self.textInput.textContainerInset.top + self.textInput.textContainerInset.bottom);
+}
+
+// 添加通知
+-(void)addEventListening {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHidden:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+-(void)setPlaceholder:(NSString *)placeholder{
+    _placeholder = placeholder;
+    self.placeholderLabel.text = placeholder;
 }
 #pragma mark keyboardnotification
 - (void)keyboardWillShow:(NSNotification *)notification {
@@ -166,8 +158,8 @@
         [UIView setAnimationBeginsFromCurrentState:YES];
         [UIView setAnimationDuration:0.3];
         [UIView setAnimationCurve:7];
-        self.CLbottom = CLscreenHeight - _keyboardHeight;
         self.CLheight = _textInputMaxHeight + self.padding;
+        self.CLbottom = CLscreenHeight - _keyboardHeight;
         self.textInput.CLheight = _textInputMaxHeight + 5;
         self.textInput.CLcenterY = self.CLheight * 0.5;
         self.sendBtn.CLy = self.CLheight - kButtonH - kButtonMargin;
@@ -177,8 +169,8 @@
         [UIView setAnimationBeginsFromCurrentState:YES];
         [UIView setAnimationDuration:0.3];
         [UIView setAnimationCurve:7];
-        self.CLbottom = CLscreenHeight - _keyboardHeight;
         self.CLheight = _textInputHeight + self.padding;
+        self.CLbottom = CLscreenHeight - _keyboardHeight;
         self.textInput.CLheight = _textInputHeight;
         self.textInput.CLcenterY = self.CLheight * 0.5;
         self.sendBtn.CLy = self.CLheight - kButtonH - kButtonMargin;
@@ -207,7 +199,6 @@
     [self.textInput.delegate textViewDidChange:self.textInput];
     [self endEditing:YES];
 }
-
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }

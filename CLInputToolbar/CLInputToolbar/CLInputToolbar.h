@@ -14,27 +14,18 @@
 - (void)inputToolbar:(CLInputToolbar *)inputToolbar sendContent:(NSString *)sendContent;
 @end
 
-@interface CLInputToolbar : UIView
-/**
- *  初始化chat bar
- */
-- (instancetype)initWithFrame:(CGRect)frame;
-/**
- *  文本输入框
- */
+@interface CLInputToolbar : UIButton
+
+/**文本输入框*/
 @property (nonatomic,strong)UITextView *textInput;
-/**
- *  设置输入框最大行数
- */
+/**设置输入框最大行数*/
 @property (nonatomic,assign)NSInteger textViewMaxLine;
-/**
- *  textView占位符
- */
-@property (nonatomic,strong)UILabel *placeholderLabel;
-
+/**代理*/
 @property (nonatomic,weak) id<CLInputToolbarDelegate>delegate;
-
+/**键盘是否隐藏回调*/
 @property (nonatomic, copy) void (^keyIsVisiableBlock)(BOOL keyboardIsVisiable);
+/**占位文字*/
+@property (nonatomic, copy) NSString *placeholder;
 
 // 发送成功
 -(void)sendSuccessEndEditing;

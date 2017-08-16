@@ -34,12 +34,16 @@
     
     self.maskView = [[UIView alloc] initWithFrame:self.view.bounds];
     
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapActions:)];
+    [self.maskView addGestureRecognizer:tap];
+    
+    
     [self.view addSubview:self.maskView];
     self.maskView.hidden = YES;
     self.inputToolbar = [[CLInputToolbar alloc] initWithFrame:CGRectMake(0,self.view.CLheight, self.view.CLwidth, 50)];
     self.inputToolbar.textViewMaxLine = 5;
     self.inputToolbar.delegate = self;
-    self.inputToolbar.placeholderLabel.text = @"请输入...";
+    self.inputToolbar.placeholder = @"请输入...";
     [self.maskView addSubview:self.inputToolbar];
 }
 
@@ -47,7 +51,7 @@
     self.maskView.hidden = NO;
     [self.inputToolbar.textInput becomeFirstResponder];
 }
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+-(void)tapActions:(UITapGestureRecognizer *)tap {
     [self.inputToolbar.textInput resignFirstResponder];
     self.maskView.hidden = YES;
 }
@@ -56,6 +60,9 @@
     [self.btn setTitle:sendContent forState:UIControlStateNormal];
     // 清空输入框文字
     [self.inputToolbar sendSuccessEndEditing];
+    self.maskView.hidden = YES;
+
 }
+
 
 @end
