@@ -49,17 +49,17 @@
 
 -(void)didTouchBtn {
     self.maskView.hidden = NO;
-    [self.inputToolbar.textInput becomeFirstResponder];
+    [self.inputToolbar popToolbar];
 }
 -(void)tapActions:(UITapGestureRecognizer *)tap {
-    [self.inputToolbar.textInput resignFirstResponder];
+    [self.inputToolbar bounceToolbar];
     self.maskView.hidden = YES;
 }
 #pragma mark - ZInputToolbarDelegate
--(void)inputToolbar:(CLInputToolbar *)inputToolbar sendContent:(NSString *)sendContent {
-    [self.btn setTitle:sendContent forState:UIControlStateNormal];
+- (void)inputToolbarSendString:(NSString *)string {
+    [self.btn setTitle:string forState:UIControlStateNormal];
     // 清空输入框文字
-    [self.inputToolbar sendSuccessEndEditing];
+    [self.inputToolbar bounceToolbar];
     self.maskView.hidden = YES;
 
 }

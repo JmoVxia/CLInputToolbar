@@ -23,21 +23,21 @@
 
 @interface CLInputToolbar ()<UITextViewDelegate>
 /**textView占位符*/
-@property (nonatomic,strong)UILabel *placeholderLabel;
+@property (nonatomic, strong) UILabel *placeholderLabel;
 /**文本输入框最高高度*/
-@property (nonatomic, assign)NSInteger textInputMaxHeight;
+@property (nonatomic, assign) NSInteger textInputMaxHeight;
 /**文本输入框高度*/
-@property (nonatomic, assign)CGFloat textInputHeight;
+@property (nonatomic, assign) CGFloat textInputHeight;
 /**键盘高度*/
-@property (nonatomic, assign)CGFloat keyboardHeight;
+@property (nonatomic, assign) CGFloat keyboardHeight;
 /**当前键盘是否可见*/
-@property (nonatomic, assign)BOOL keyboardIsVisiable;
+@property (nonatomic, assign) BOOL keyboardIsVisiable;
 /**发送按钮*/
-@property (nonatomic, strong)UIButton *sendBtn;
+@property (nonatomic, strong) UIButton *sendBtn;
 /**原始Y*/
-@property (nonatomic, assign)CGFloat origin_y;
+@property (nonatomic, assign) CGFloat origin_y;
 /**间隙*/
-@property (nonatomic, assign)CGFloat padding;
+@property (nonatomic, assign) CGFloat padding;
 
 @end
 
@@ -180,8 +180,8 @@
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     // 点击return按钮
     if ([text isEqualToString:@"\n"]){
-        if ([_delegate respondsToSelector:@selector(inputToolbar:sendContent:)]) {
-            [_delegate inputToolbar:self sendContent:self.textInput.text];
+        if ([_delegate respondsToSelector:@selector(inputToolbarSendString:)]) {
+            [_delegate inputToolbarSendString:self.textInput.text];
         }
         return NO;
     }
@@ -189,12 +189,15 @@
 }
 // 发送按钮
 -(void)didClickSendBtn {
-    if ([_delegate respondsToSelector:@selector(inputToolbar:sendContent:)]) {
-        [_delegate inputToolbar:self sendContent:self.textInput.text];
+    if ([_delegate respondsToSelector:@selector(inputToolbarSendString:)]) {
+        [_delegate inputToolbarSendString:self.textInput.text];
     }
 }
+- (void)popToolbar{
+    [self.textInput becomeFirstResponder];
+}
 // 发送成功 清空文字 更新输入框大小
--(void)sendSuccessEndEditing {
+-(void)bounceToolbar {
     self.textInput.text = nil;
     [self.textInput.delegate textViewDidChange:self.textInput];
     [self endEditing:YES];

@@ -11,23 +11,26 @@
 
 @protocol CLInputToolbarDelegate <NSObject>
 @optional
-- (void)inputToolbar:(CLInputToolbar *)inputToolbar sendContent:(NSString *)sendContent;
+- (void)inputToolbarSendString:(NSString *)string;
 @end
 
 @interface CLInputToolbar : UIButton
 
 /**文本输入框*/
-@property (nonatomic,strong)UITextView *textInput;
+@property (nonatomic, strong) UITextView *textInput;
 /**设置输入框最大行数*/
-@property (nonatomic,assign)NSInteger textViewMaxLine;
+@property (nonatomic, assign) NSInteger textViewMaxLine;
 /**代理*/
-@property (nonatomic,weak) id<CLInputToolbarDelegate>delegate;
+@property (nonatomic, weak) id<CLInputToolbarDelegate> delegate;
 /**键盘是否隐藏回调*/
 @property (nonatomic, copy) void (^keyIsVisiableBlock)(BOOL keyboardIsVisiable);
 /**占位文字*/
 @property (nonatomic, copy) NSString *placeholder;
 
-// 发送成功
--(void)sendSuccessEndEditing;
+/**收回键盘*/
+-(void)bounceToolbar;
+/**弹出键盘*/
+- (void)popToolbar;
+
 
 @end
