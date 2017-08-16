@@ -15,6 +15,8 @@
 		5BD1A0561F441FBB00B4F7C0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BD1A0541F441FBB00B4F7C0 /* LaunchScreen.storyboard */; };
 		5BD1A0611F441FBB00B4F7C0 /* CLInputToolbarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1A0601F441FBB00B4F7C0 /* CLInputToolbarTests.m */; };
 		5BD1A06C1F441FBB00B4F7C0 /* CLInputToolbarUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1A06B1F441FBB00B4F7C0 /* CLInputToolbarUITests.m */; };
+		5BD1A07B1F4424FA00B4F7C0 /* UIView+CLSetRect.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1A07A1F4424FA00B4F7C0 /* UIView+CLSetRect.m */; };
+		5BD1A07E1F44251600B4F7C0 /* CLInputToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1A07D1F44251600B4F7C0 /* CLInputToolbar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,10 @@
 		5BD1A0671F441FBB00B4F7C0 /* CLInputToolbarUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CLInputToolbarUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BD1A06B1F441FBB00B4F7C0 /* CLInputToolbarUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CLInputToolbarUITests.m; sourceTree = "<group>"; };
 		5BD1A06D1F441FBB00B4F7C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5BD1A0791F4424FA00B4F7C0 /* UIView+CLSetRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+CLSetRect.h"; sourceTree = "<group>"; };
+		5BD1A07A1F4424FA00B4F7C0 /* UIView+CLSetRect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CLSetRect.m"; sourceTree = "<group>"; };
+		5BD1A07C1F44251600B4F7C0 /* CLInputToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLInputToolbar.h; sourceTree = "<group>"; };
+		5BD1A07D1F44251600B4F7C0 /* CLInputToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLInputToolbar.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +111,10 @@
 				5BD1A04A1F441FBB00B4F7C0 /* AppDelegate.m */,
 				5BD1A04C1F441FBB00B4F7C0 /* ViewController.h */,
 				5BD1A04D1F441FBB00B4F7C0 /* ViewController.m */,
+				5BD1A0791F4424FA00B4F7C0 /* UIView+CLSetRect.h */,
+				5BD1A07A1F4424FA00B4F7C0 /* UIView+CLSetRect.m */,
+				5BD1A07C1F44251600B4F7C0 /* CLInputToolbar.h */,
+				5BD1A07D1F44251600B4F7C0 /* CLInputToolbar.m */,
 				5BD1A0461F441FBB00B4F7C0 /* Supporting Files */,
 			);
 			path = CLInputToolbar;
@@ -278,7 +288,9 @@
 			files = (
 				5BD1A04E1F441FBB00B4F7C0 /* ViewController.m in Sources */,
 				5BD1A04B1F441FBB00B4F7C0 /* AppDelegate.m in Sources */,
+				5BD1A07B1F4424FA00B4F7C0 /* UIView+CLSetRect.m in Sources */,
 				5BD1A0481F441FBB00B4F7C0 /* main.m in Sources */,
+				5BD1A07E1F44251600B4F7C0 /* CLInputToolbar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,6 +528,7 @@
 				5BD1A0721F441FBB00B4F7C0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5BD1A0731F441FBB00B4F7C0 /* Build configuration list for PBXNativeTarget "CLInputToolbarTests" */ = {
 			isa = XCConfigurationList;
@@ -524,6 +537,7 @@
 				5BD1A0751F441FBB00B4F7C0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5BD1A0761F441FBB00B4F7C0 /* Build configuration list for PBXNativeTarget "CLInputToolbarUITests" */ = {
 			isa = XCConfigurationList;
@@ -532,6 +546,7 @@
 				5BD1A0781F441FBB00B4F7C0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
