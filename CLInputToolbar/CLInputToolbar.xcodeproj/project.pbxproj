@@ -13,28 +13,9 @@
 		5BD1A0511F441FBB00B4F7C0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BD1A04F1F441FBB00B4F7C0 /* Main.storyboard */; };
 		5BD1A0531F441FBB00B4F7C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BD1A0521F441FBB00B4F7C0 /* Assets.xcassets */; };
 		5BD1A0561F441FBB00B4F7C0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BD1A0541F441FBB00B4F7C0 /* LaunchScreen.storyboard */; };
-		5BD1A0611F441FBB00B4F7C0 /* CLInputToolbarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1A0601F441FBB00B4F7C0 /* CLInputToolbarTests.m */; };
-		5BD1A06C1F441FBB00B4F7C0 /* CLInputToolbarUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1A06B1F441FBB00B4F7C0 /* CLInputToolbarUITests.m */; };
 		5BD1A07B1F4424FA00B4F7C0 /* UIView+CLSetRect.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1A07A1F4424FA00B4F7C0 /* UIView+CLSetRect.m */; };
 		5BD1A07E1F44251600B4F7C0 /* CLInputToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1A07D1F44251600B4F7C0 /* CLInputToolbar.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		5BD1A05D1F441FBB00B4F7C0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5BD1A03B1F441FBB00B4F7C0 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5BD1A0421F441FBB00B4F7C0;
-			remoteInfo = CLInputToolbar;
-		};
-		5BD1A0681F441FBB00B4F7C0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5BD1A03B1F441FBB00B4F7C0 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5BD1A0421F441FBB00B4F7C0;
-			remoteInfo = CLInputToolbar;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		5BD1A0431F441FBB00B4F7C0 /* CLInputToolbar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CLInputToolbar.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -47,12 +28,6 @@
 		5BD1A0521F441FBB00B4F7C0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5BD1A0551F441FBB00B4F7C0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5BD1A0571F441FBB00B4F7C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5BD1A05C1F441FBB00B4F7C0 /* CLInputToolbarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CLInputToolbarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5BD1A0601F441FBB00B4F7C0 /* CLInputToolbarTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CLInputToolbarTests.m; sourceTree = "<group>"; };
-		5BD1A0621F441FBB00B4F7C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5BD1A0671F441FBB00B4F7C0 /* CLInputToolbarUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CLInputToolbarUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5BD1A06B1F441FBB00B4F7C0 /* CLInputToolbarUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CLInputToolbarUITests.m; sourceTree = "<group>"; };
-		5BD1A06D1F441FBB00B4F7C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5BD1A0791F4424FA00B4F7C0 /* UIView+CLSetRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+CLSetRect.h"; sourceTree = "<group>"; };
 		5BD1A07A1F4424FA00B4F7C0 /* UIView+CLSetRect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CLSetRect.m"; sourceTree = "<group>"; };
 		5BD1A07C1F44251600B4F7C0 /* CLInputToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLInputToolbar.h; sourceTree = "<group>"; };
@@ -67,20 +42,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5BD1A0591F441FBB00B4F7C0 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5BD1A0641F441FBB00B4F7C0 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -88,8 +49,6 @@
 			isa = PBXGroup;
 			children = (
 				5BD1A0451F441FBB00B4F7C0 /* CLInputToolbar */,
-				5BD1A05F1F441FBB00B4F7C0 /* CLInputToolbarTests */,
-				5BD1A06A1F441FBB00B4F7C0 /* CLInputToolbarUITests */,
 				5BD1A0441F441FBB00B4F7C0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -98,8 +57,6 @@
 			isa = PBXGroup;
 			children = (
 				5BD1A0431F441FBB00B4F7C0 /* CLInputToolbar.app */,
-				5BD1A05C1F441FBB00B4F7C0 /* CLInputToolbarTests.xctest */,
-				5BD1A0671F441FBB00B4F7C0 /* CLInputToolbarUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -132,24 +89,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		5BD1A05F1F441FBB00B4F7C0 /* CLInputToolbarTests */ = {
-			isa = PBXGroup;
-			children = (
-				5BD1A0601F441FBB00B4F7C0 /* CLInputToolbarTests.m */,
-				5BD1A0621F441FBB00B4F7C0 /* Info.plist */,
-			);
-			path = CLInputToolbarTests;
-			sourceTree = "<group>";
-		};
-		5BD1A06A1F441FBB00B4F7C0 /* CLInputToolbarUITests */ = {
-			isa = PBXGroup;
-			children = (
-				5BD1A06B1F441FBB00B4F7C0 /* CLInputToolbarUITests.m */,
-				5BD1A06D1F441FBB00B4F7C0 /* Info.plist */,
-			);
-			path = CLInputToolbarUITests;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -170,42 +109,6 @@
 			productReference = 5BD1A0431F441FBB00B4F7C0 /* CLInputToolbar.app */;
 			productType = "com.apple.product-type.application";
 		};
-		5BD1A05B1F441FBB00B4F7C0 /* CLInputToolbarTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5BD1A0731F441FBB00B4F7C0 /* Build configuration list for PBXNativeTarget "CLInputToolbarTests" */;
-			buildPhases = (
-				5BD1A0581F441FBB00B4F7C0 /* Sources */,
-				5BD1A0591F441FBB00B4F7C0 /* Frameworks */,
-				5BD1A05A1F441FBB00B4F7C0 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				5BD1A05E1F441FBB00B4F7C0 /* PBXTargetDependency */,
-			);
-			name = CLInputToolbarTests;
-			productName = CLInputToolbarTests;
-			productReference = 5BD1A05C1F441FBB00B4F7C0 /* CLInputToolbarTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		5BD1A0661F441FBB00B4F7C0 /* CLInputToolbarUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5BD1A0761F441FBB00B4F7C0 /* Build configuration list for PBXNativeTarget "CLInputToolbarUITests" */;
-			buildPhases = (
-				5BD1A0631F441FBB00B4F7C0 /* Sources */,
-				5BD1A0641F441FBB00B4F7C0 /* Frameworks */,
-				5BD1A0651F441FBB00B4F7C0 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				5BD1A0691F441FBB00B4F7C0 /* PBXTargetDependency */,
-			);
-			name = CLInputToolbarUITests;
-			productName = CLInputToolbarUITests;
-			productReference = 5BD1A0671F441FBB00B4F7C0 /* CLInputToolbarUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -219,18 +122,6 @@
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 533J5B8T42;
 						ProvisioningStyle = Automatic;
-					};
-					5BD1A05B1F441FBB00B4F7C0 = {
-						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = 533J5B8T42;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 5BD1A0421F441FBB00B4F7C0;
-					};
-					5BD1A0661F441FBB00B4F7C0 = {
-						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = 533J5B8T42;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 5BD1A0421F441FBB00B4F7C0;
 					};
 				};
 			};
@@ -248,8 +139,6 @@
 			projectRoot = "";
 			targets = (
 				5BD1A0421F441FBB00B4F7C0 /* CLInputToolbar */,
-				5BD1A05B1F441FBB00B4F7C0 /* CLInputToolbarTests */,
-				5BD1A0661F441FBB00B4F7C0 /* CLInputToolbarUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -262,20 +151,6 @@
 				5BD1A0561F441FBB00B4F7C0 /* LaunchScreen.storyboard in Resources */,
 				5BD1A0531F441FBB00B4F7C0 /* Assets.xcassets in Resources */,
 				5BD1A0511F441FBB00B4F7C0 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5BD1A05A1F441FBB00B4F7C0 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5BD1A0651F441FBB00B4F7C0 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,36 +169,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5BD1A0581F441FBB00B4F7C0 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5BD1A0611F441FBB00B4F7C0 /* CLInputToolbarTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5BD1A0631F441FBB00B4F7C0 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5BD1A06C1F441FBB00B4F7C0 /* CLInputToolbarUITests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		5BD1A05E1F441FBB00B4F7C0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5BD1A0421F441FBB00B4F7C0 /* CLInputToolbar */;
-			targetProxy = 5BD1A05D1F441FBB00B4F7C0 /* PBXContainerItemProxy */;
-		};
-		5BD1A0691F441FBB00B4F7C0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5BD1A0421F441FBB00B4F7C0 /* CLInputToolbar */;
-			targetProxy = 5BD1A0681F441FBB00B4F7C0 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		5BD1A04F1F441FBB00B4F7C0 /* Main.storyboard */ = {
@@ -459,56 +305,6 @@
 			};
 			name = Release;
 		};
-		5BD1A0741F441FBB00B4F7C0 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = 533J5B8T42;
-				INFOPLIST_FILE = CLInputToolbarTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "----.CLInputToolbarTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CLInputToolbar.app/CLInputToolbar";
-			};
-			name = Debug;
-		};
-		5BD1A0751F441FBB00B4F7C0 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = 533J5B8T42;
-				INFOPLIST_FILE = CLInputToolbarTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "----.CLInputToolbarTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CLInputToolbar.app/CLInputToolbar";
-			};
-			name = Release;
-		};
-		5BD1A0771F441FBB00B4F7C0 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEVELOPMENT_TEAM = 533J5B8T42;
-				INFOPLIST_FILE = CLInputToolbarUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "----.CLInputToolbarUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = CLInputToolbar;
-			};
-			name = Debug;
-		};
-		5BD1A0781F441FBB00B4F7C0 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEVELOPMENT_TEAM = 533J5B8T42;
-				INFOPLIST_FILE = CLInputToolbarUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "----.CLInputToolbarUITests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = CLInputToolbar;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -526,24 +322,6 @@
 			buildConfigurations = (
 				5BD1A0711F441FBB00B4F7C0 /* Debug */,
 				5BD1A0721F441FBB00B4F7C0 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		5BD1A0731F441FBB00B4F7C0 /* Build configuration list for PBXNativeTarget "CLInputToolbarTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5BD1A0741F441FBB00B4F7C0 /* Debug */,
-				5BD1A0751F441FBB00B4F7C0 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		5BD1A0761F441FBB00B4F7C0 /* Build configuration list for PBXNativeTarget "CLInputToolbarUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5BD1A0771F441FBB00B4F7C0 /* Debug */,
-				5BD1A0781F441FBB00B4F7C0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
