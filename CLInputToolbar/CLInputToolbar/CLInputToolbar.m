@@ -168,11 +168,6 @@
     self.textInput.scrollEnabled = _textInputHeight > _textInputMaxHeight && _textInputMaxHeight > 0;
     if (self.textInput.scrollEnabled) {
         [UIView animateWithDuration:0.3 animations:^{
-            self.CLheight = _textInputHeight + self.padding;
-            self.CLbottom = CLscreenHeight - _keyboardHeight;
-            self.textInput.CLheight = _textInputHeight;
-            self.textInput.CLcenterY = self.CLheight * 0.5;
-            self.sendBtn.CLy = self.CLheight - kButtonH - kButtonMargin;
             self.textInput.contentOffset = CGPointMake(0, self.textInput.contentSize.height - self.textInput.CLheight);
             [self.textInput scrollRangeToVisible:NSMakeRange(self.textInput.text.length, 1)];
         }];
