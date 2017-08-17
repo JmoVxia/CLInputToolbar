@@ -54,9 +54,7 @@
 
 -(void)initView {
     self.backgroundColor = [UIColor whiteColor];
-    if (!self.textViewMaxLine || self.textViewMaxLine == 0) {
-        self.textViewMaxLine = 4;
-    }
+    self.textViewMaxLine = 4;
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.CLwidth, 0.5)];
     line.backgroundColor = RGBACOLOR(227, 228, 232, 1);
     [self addSubview:line];
@@ -76,6 +74,7 @@
     self.textInput.returnKeyType = UIReturnKeySend;
     self.textInput.enablesReturnKeyAutomatically = YES;
     self.textInput.delegate = self;
+    self.textInput.layoutManager.allowsNonContiguousLayout = NO;
     [self addSubview:self.textInput];
     
     self.placeholderLabel = [[UILabel alloc]init];
@@ -101,7 +100,10 @@
 }
 - (void)setTextViewMaxLine:(NSInteger)textViewMaxLine {
     _textViewMaxLine = textViewMaxLine;
-    _textInputMaxHeight = ceil(self.textInput.font.lineHeight * (textViewMaxLine - 1) +
+    if (!_textViewMaxLine || _textViewMaxLine == 0) {
+        _textViewMaxLine = 4;
+    }
+    _textInputMaxHeight = ceil(self.textInput.font.lineHeight * (textViewMaxLine) + (textViewMaxLine - 1) * 6 +
                                self.textInput.textContainerInset.top + self.textInput.textContainerInset.bottom);
 }
 
@@ -151,19 +153,29 @@
         self.sendBtn.enabled = NO;
         [self.sendBtn setTitleColor:RGBACOLOR(0, 0, 0, 0.2) forState:UIControlStateNormal];
     }
+    // 判断是否有候选字符，如果不为nil，代表有候选字符
+    if(textView.markedTextRange == nil){
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.lineSpacing = 6; // 字体的行间距
+        paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
+        
+        NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:15],
+                                     NSParagraphStyleAttributeName:paragraphStyle
+                                     };
+        textView.attributedText = [[NSAttributedString alloc] initWithString:textView.text attributes:attributes];
+    }
     _textInputHeight = ceilf([self.textInput sizeThatFits:CGSizeMake(self.textInput.CLwidth, MAXFLOAT)].height) <= kInputHeight ? kInputHeight : ceilf([self.textInput sizeThatFits:CGSizeMake(self.textInput.CLwidth, MAXFLOAT)].height);
     self.textInput.scrollEnabled = _textInputHeight > _textInputMaxHeight && _textInputMaxHeight > 0;
     if (self.textInput.scrollEnabled) {
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationBeginsFromCurrentState:YES];
-        [UIView setAnimationDuration:0.3];
-        [UIView setAnimationCurve:7];
-        self.CLheight = _textInputMaxHeight + self.padding;
-        self.CLbottom = CLscreenHeight - _keyboardHeight;
-        self.textInput.CLheight = _textInputMaxHeight + 5;
-        self.textInput.CLcenterY = self.CLheight * 0.5;
-        self.sendBtn.CLy = self.CLheight - kButtonH - kButtonMargin;
-        [UIView commitAnimations];
+        [UIView animateWithDuration:0.3 animations:^{
+            self.CLheight = _textInputHeight + self.padding;
+            self.CLbottom = CLscreenHeight - _keyboardHeight;
+            self.textInput.CLheight = _textInputHeight;
+            self.textInput.CLcenterY = self.CLheight * 0.5;
+            self.sendBtn.CLy = self.CLheight - kButtonH - kButtonMargin;
+            self.textInput.contentOffset = CGPointMake(0, self.textInput.contentSize.height - self.textInput.CLheight);
+            [self.textInput scrollRangeToVisible:NSMakeRange(self.textInput.text.length, 1)];
+        }];
     } else {
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationBeginsFromCurrentState:YES];
