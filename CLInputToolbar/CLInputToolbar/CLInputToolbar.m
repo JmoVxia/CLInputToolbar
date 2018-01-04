@@ -155,34 +155,38 @@
     }
     // 判断是否有候选字符，如果不为nil，代表有候选字符
     if(textView.markedTextRange == nil){
+        //记录光标位置
+        NSUInteger loc = textView.selectedRange.location;
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         paragraphStyle.lineSpacing = 6; // 字体的行间距
         paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
         
-        NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:15],
+        NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:16],
                                      NSParagraphStyleAttributeName:paragraphStyle
                                      };
         textView.attributedText = [[NSAttributedString alloc] initWithString:textView.text attributes:attributes];
+        //还原光标位置
+        textView.selectedRange = NSMakeRange(loc, 0);
     }
-    _textInputHeight = ceilf([self.textInput sizeThatFits:CGSizeMake(self.textInput.CLwidth, MAXFLOAT)].height) <= kInputHeight ? kInputHeight : ceilf([self.textInput sizeThatFits:CGSizeMake(self.textInput.CLwidth, MAXFLOAT)].height);
-    self.textInput.scrollEnabled = _textInputHeight > _textInputMaxHeight && _textInputMaxHeight > 0;
-    if (self.textInput.scrollEnabled) {
-        [UIView animateWithDuration:0.3 animations:^{
-            self.textInput.contentOffset = CGPointMake(0, self.textInput.contentSize.height - self.textInput.CLheight);
-            [self.textInput scrollRangeToVisible:NSMakeRange(self.textInput.text.length, 1)];
-        }];
-    } else {
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationBeginsFromCurrentState:YES];
-        [UIView setAnimationDuration:0.3];
-        [UIView setAnimationCurve:7];
-        self.CLheight = _textInputHeight + self.padding;
-        self.CLbottom = CLscreenHeight - _keyboardHeight;
-        self.textInput.CLheight = _textInputHeight;
-        self.textInput.CLcenterY = self.CLheight * 0.5;
-        self.sendBtn.CLy = self.CLheight - kButtonH - kButtonMargin;
-        [UIView commitAnimations];
+    
+    CGFloat contentSizeH = self.textInput.contentSize.height;
+    CGFloat lineH = self.textInput.font.lineHeight;
+    CGFloat contentH = contentSizeH - 16;
+    
+    int line = contentH / lineH;
+    
+    if (line >self.textViewMaxLine) {
+        CGPoint point = CGPointMake(0, (line -self.textViewMaxLine) * lineH + 8 + 18);
+        [self.textInput setContentOffset:point animated:NO];
+        self.textInput.CLheight = ceil(self.textViewMaxLine * lineH + 8 + 18);
+    }else{
+        self.textInput.CLheight = contentSizeH;
+        [self.textInput setContentOffset:CGPointZero animated:YES];
     }
+    self.CLheight = self.textInput.CLheight + _padding;
+    self.CLbottom = CLscreenHeight - _keyboardHeight;
+    self.textInput.CLcenterY = self.CLheight * 0.5;
+    self.sendBtn.CLy = self.CLheight - kButtonH - kButtonMargin;
 }
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     // 点击return按钮
