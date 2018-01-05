@@ -40,8 +40,6 @@
 @property (nonatomic, strong) UIButton *sendBtn;
 /**原始Y*/
 @property (nonatomic, assign) CGFloat origin_y;
-/**间隙*/
-@property (nonatomic, assign) CGFloat padding;
 
 @end
 
@@ -64,13 +62,11 @@
 //    line.backgroundColor = RGBACOLOR(227, 228, 232, 1);
 //    [self addSubview:line];
     
-    self.padding = self.CLheight - kInputHeight;
     
     self.textInput = [[UITextView alloc] init];;
     self.textInput.CLheight = kInputHeight - 10;
     self.textInput.CLwidth = self.CLwidth - kButtonW - 46;
     self.textInput.CLleft = 18;
-    self.textInput.CLcenterY = self.CLheight * 0.5;
     self.textInput.returnKeyType = UIReturnKeySend;
     self.textInput.enablesReturnKeyAutomatically = YES;
     self.textInput.delegate = self;
@@ -84,7 +80,6 @@
     self.placeholderLabel.CLheight = kInputHeight;
     self.placeholderLabel.CLwidth = self.CLwidth - kButtonW - 30;
     self.placeholderLabel.CLleft = 10;
-    self.placeholderLabel.CLcenterY = self.CLheight * 0.5;
     self.placeholderLabel.textColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
     self.placeholderLabel.font = self.textInput.font;
     self.placeholderLabel.layer.cornerRadius = 5;
@@ -111,6 +106,14 @@
         _fontSize = 20;
     }
     self.textInput.font = [UIFont systemFontOfSize:_fontSize];
+    CGFloat lineH = self.textInput.font.lineHeight;
+    self.CLheight = ceil(lineH) + 10 + 10;
+    self.textInput.CLheight = lineH;
+    self.placeholderLabel.CLheight = lineH + 10;
+    self.textInput.CLcenterY = self.CLheight * 0.5;
+    self.placeholderLabel.CLcenterY = self.CLheight * 0.5;
+    self.sendBtn.CLcenterY = self.CLheight * 0.5;
+
 }
 
 - (void)setTextViewMaxLine:(NSInteger)textViewMaxLine {
@@ -160,8 +163,12 @@
 - (void)textViewDidChange:(UITextView *)textView {
     if (textView.text.length == 0) {
         self.placeholderLabel.text = _placeholder;
+        self.sendBtn.enabled = NO;
+        [self.sendBtn setTitleColor:RGBACOLOR(0, 0, 0, 0.2) forState:UIControlStateNormal];
     }else{
         self.placeholderLabel.text = @"";
+        self.sendBtn.enabled = YES;
+        [self.sendBtn setTitleColor:RGBACOLOR(0, 0, 0, 0.9) forState:UIControlStateNormal];
     }
     //记录光标位置
     NSUInteger loc = textView.selectedRange.location;
@@ -177,13 +184,7 @@
         textView.attributedText = [[NSAttributedString alloc] initWithString:textView.text attributes:attributes];
     }
 
-    if (textView.text.length) {
-        self.sendBtn.enabled = YES;
-        [self.sendBtn setTitleColor:RGBACOLOR(0, 0, 0, 0.9) forState:UIControlStateNormal];
-    }else {
-        self.sendBtn.enabled = NO;
-        [self.sendBtn setTitleColor:RGBACOLOR(0, 0, 0, 0.2) forState:UIControlStateNormal];
-    }
+    
     CGFloat contentSizeH = self.textInput.contentSize.height;
     CGFloat lineH = self.textInput.font.lineHeight;
     CGFloat contentH = contentSizeH - _fontSize;
@@ -204,7 +205,7 @@
     }
         //还原光标位置
         textView.selectedRange = NSMakeRange(loc, 0);
-    self.CLheight = self.textInput.CLheight + _padding * 2;
+    self.CLheight = self.textInput.CLheight + 10 + 10;
     self.CLbottom = CLscreenHeight - _keyboardHeight;
     self.placeholderLabel.CLheight = self.textInput.CLheight + 10;
     self.textInput.CLcenterY = self.CLheight * 0.5;
