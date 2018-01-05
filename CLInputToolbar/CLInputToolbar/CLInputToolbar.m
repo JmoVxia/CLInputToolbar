@@ -59,36 +59,38 @@
 -(void)initView {
     self.backgroundColor = [UIColor whiteColor];
     self.textViewMaxLine = 4;
-    self.fontSize = 16;
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.CLwidth, 0.5)];
-    line.backgroundColor = RGBACOLOR(227, 228, 232, 1);
-    [self addSubview:line];
+    self.fontSize = 20;
+//    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.CLwidth, 0.5)];
+//    line.backgroundColor = RGBACOLOR(227, 228, 232, 1);
+//    [self addSubview:line];
     
     self.padding = self.CLheight - kInputHeight;
     
     self.textInput = [[UITextView alloc] init];;
-    self.textInput.CLheight = kInputHeight;
-    self.textInput.CLwidth = self.CLwidth - kButtonW - 30;
-    self.textInput.CLleft = 10;
+    self.textInput.CLheight = kInputHeight - 10;
+    self.textInput.CLwidth = self.CLwidth - kButtonW - 46;
+    self.textInput.CLleft = 18;
     self.textInput.CLcenterY = self.CLheight * 0.5;
-    self.textInput.font = [UIFont systemFontOfSize:15];
-    self.textInput.layer.cornerRadius = 5;
-    self.textInput.layer.borderColor = RGBACOLOR(227, 228, 232, 1).CGColor;
-    self.textInput.layer.borderWidth = 1;
-    self.textInput.layer.masksToBounds = YES;
     self.textInput.returnKeyType = UIReturnKeySend;
     self.textInput.enablesReturnKeyAutomatically = YES;
     self.textInput.delegate = self;
     self.textInput.layoutManager.allowsNonContiguousLayout = NO;
+    self.textInput.scrollsToTop = NO;
+    self.textInput.textContainerInset = UIEdgeInsetsZero;
+    self.textInput.textContainer.lineFragmentPadding = 0;
     [self addSubview:self.textInput];
     
     self.placeholderLabel = [[UILabel alloc]init];
     self.placeholderLabel.CLheight = kInputHeight;
     self.placeholderLabel.CLwidth = self.CLwidth - kButtonW - 30;
-    self.placeholderLabel.CLleft = 18;
+    self.placeholderLabel.CLleft = 10;
     self.placeholderLabel.CLcenterY = self.CLheight * 0.5;
     self.placeholderLabel.textColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
     self.placeholderLabel.font = self.textInput.font;
+    self.placeholderLabel.layer.cornerRadius = 5;
+    self.placeholderLabel.layer.borderColor = RGBACOLOR(227, 228, 232, 1).CGColor;
+    self.placeholderLabel.layer.borderWidth = 1;
+    self.placeholderLabel.layer.masksToBounds = YES;
     [self addSubview:self.placeholderLabel];
     
     self.sendBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.CLwidth - kButtonW - 10, self.CLheight - kButtonH - kButtonMargin, kButtonW, kButtonH)];
@@ -105,9 +107,10 @@
 }
 -(void)setFontSize:(CGFloat)fontSize{
     _fontSize = fontSize;
-    if (!fontSize || _fontSize < 16) {
-        _fontSize = 16;
+    if (!fontSize || _fontSize < 20) {
+        _fontSize = 20;
     }
+    self.textInput.font = [UIFont systemFontOfSize:_fontSize];
 }
 
 - (void)setTextViewMaxLine:(NSInteger)textViewMaxLine {
@@ -155,7 +158,25 @@
 }
 #pragma mark UITextViewDelegate
 - (void)textViewDidChange:(UITextView *)textView {
-    self.placeholderLabel.hidden = textView.text.length;
+    if (textView.text.length == 0) {
+        self.placeholderLabel.text = _placeholder;
+    }else{
+        self.placeholderLabel.text = @"";
+    }
+    //记录光标位置
+    NSUInteger loc = textView.selectedRange.location;
+    // 判断是否有候选字符，如果不为nil，代表有候选字符
+    if(textView.markedTextRange == nil){
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.lineSpacing = 12; // 字体的行间距
+        paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
+        
+        NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:_fontSize],
+                                     NSParagraphStyleAttributeName:paragraphStyle
+                                     };
+        textView.attributedText = [[NSAttributedString alloc] initWithString:textView.text attributes:attributes];
+    }
+
     if (textView.text.length) {
         self.sendBtn.enabled = YES;
         [self.sendBtn setTitleColor:RGBACOLOR(0, 0, 0, 0.9) forState:UIControlStateNormal];
@@ -163,44 +184,31 @@
         self.sendBtn.enabled = NO;
         [self.sendBtn setTitleColor:RGBACOLOR(0, 0, 0, 0.2) forState:UIControlStateNormal];
     }
-    // 判断是否有候选字符，如果不为nil，代表有候选字符
-    if(textView.markedTextRange == nil){
-        //记录光标位置
-        NSUInteger loc = textView.selectedRange.location;
-        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-        paragraphStyle.lineSpacing = 12; // 字体的行间距
-        paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
-        NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:_fontSize],
-                                     NSParagraphStyleAttributeName:paragraphStyle
-                                     };
-        textView.attributedText = [[NSAttributedString alloc] initWithString:textView.text attributes:attributes];
-        //还原光标位置
-        textView.selectedRange = NSMakeRange(loc, 0);
-    }
-    CGFloat contentSizeH = self.textInput.contentSize.height + 12;
-    CGFloat lineH = self.textInput.font.lineHeight + 12;
+    CGFloat contentSizeH = self.textInput.contentSize.height;
+    CGFloat lineH = self.textInput.font.lineHeight;
     CGFloat contentH = contentSizeH - _fontSize;
-    int line = contentH / lineH;
+    int line = (contentH + 12) / (lineH + 12);
     if (line == 0) {
         _needAdd = YES;
     }
     if (_needAdd) {
         line ++;
     }
-    NSLog(@"%d",line);
+    NSLog(@"%d-----%ld",line,textView.text.length);
     if (line > self.textViewMaxLine) {
-        CGPoint point = CGPointMake(0, ceil((line -self.textViewMaxLine) * (lineH - 12) + 12 * self.textViewMaxLine));
-        [self.textInput setContentOffset:point animated:YES];
-        self.textInput.CLheight = _textInputMaxHeight;
+        self.textInput.CLheight = self.textViewMaxLine * lineH + 12 * (self.textViewMaxLine - 1);
     }else{
-        _textInputMaxHeight = contentSizeH - 12;
+        _textInputMaxHeight = contentSizeH;
         self.textInput.CLheight = _textInputMaxHeight;
-        [self.textInput setContentOffset:CGPointZero animated:YES];
+        [self.textInput scrollRangeToVisible:NSMakeRange(self.textInput.text.length, 1)];
     }
-    self.CLheight = self.textInput.CLheight + _padding;
+        //还原光标位置
+        textView.selectedRange = NSMakeRange(loc, 0);
+    self.CLheight = self.textInput.CLheight + _padding * 2;
     self.CLbottom = CLscreenHeight - _keyboardHeight;
+    self.placeholderLabel.CLheight = self.textInput.CLheight + 10;
     self.textInput.CLcenterY = self.CLheight * 0.5;
-    self.sendBtn.CLy = self.CLheight - kButtonH - kButtonMargin;
+    self.sendBtn.CLcenterY = self.CLheight * 0.5;
     self.placeholderLabel.CLcenterY = self.CLheight * 0.5;
 }
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
