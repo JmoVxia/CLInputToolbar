@@ -13,8 +13,6 @@
 #define kButtonH 30
 //按钮宽
 #define kButtonW 50
-//按钮距离下边距离
-#define kButtonMargin 10
 
 #define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:(a)]
 
@@ -83,7 +81,7 @@
     self.placeholderLabel.layer.masksToBounds = YES;
     [self addSubview:self.placeholderLabel];
     
-    self.sendBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.CLwidth - kButtonW - 10, self.CLheight - kButtonH - kButtonMargin, kButtonW, kButtonH)];
+    self.sendBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.CLwidth - kButtonW - 10, self.CLheight - kButtonH - 10, kButtonW, kButtonH)];
     //边框圆角
     [self.sendBtn.layer setBorderWidth:1.0];
     [self.sendBtn.layer setCornerRadius:5.0];
@@ -136,12 +134,9 @@
     CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     _keyboardHeight = keyboardFrame.size.height;
     CGFloat duration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationBeginsFromCurrentState:YES];
-    [UIView setAnimationDuration:duration];
-    [UIView setAnimationCurve:7];
-    self.CLy = keyboardFrame.origin.y - self.CLheight;
-    [UIView commitAnimations];
+    [UIView animateWithDuration:duration animations:^{
+        self.CLy = keyboardFrame.origin.y - self.CLheight;
+    }];
     self.keyboardIsVisiable = YES;
     if (self.keyIsVisiableBlock) {
         self.keyIsVisiableBlock(YES);
@@ -227,6 +222,7 @@
     }
 }
 - (void)popToolbar{
+    self.fontSize = _fontSize;
     [self.textInput becomeFirstResponder];
 }
 // 发送成功 清空文字 更新输入框大小
