@@ -9,8 +9,6 @@
 #import "CLInputToolbar.h"
 #import "UIView+CLSetRect.h"
 
-//输入框高度
-#define kInputHeight 34
 //按钮高
 #define kButtonH 30
 //按钮宽
@@ -57,14 +55,12 @@
 -(void)initView {
     self.backgroundColor = [UIColor whiteColor];
     self.textViewMaxLine = 4;
-    self.fontSize = 20;
 //    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.CLwidth, 0.5)];
 //    line.backgroundColor = RGBACOLOR(227, 228, 232, 1);
 //    [self addSubview:line];
     
     
     self.textInput = [[UITextView alloc] init];;
-    self.textInput.CLheight = kInputHeight - 10;
     self.textInput.CLwidth = self.CLwidth - kButtonW - 46;
     self.textInput.CLleft = 18;
     self.textInput.returnKeyType = UIReturnKeySend;
@@ -77,7 +73,6 @@
     [self addSubview:self.textInput];
     
     self.placeholderLabel = [[UILabel alloc]init];
-    self.placeholderLabel.CLheight = kInputHeight;
     self.placeholderLabel.CLwidth = self.CLwidth - kButtonW - 30;
     self.placeholderLabel.CLleft = 10;
     self.placeholderLabel.textColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
@@ -99,11 +94,14 @@
     [self.sendBtn setTitleColor:RGBACOLOR(0, 0, 0, 0.2) forState:UIControlStateNormal];
     [self.sendBtn addTarget:self action:@selector(didClickSendBtn) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.sendBtn];
+    
+    self.fontSize = 18;
+
 }
 -(void)setFontSize:(CGFloat)fontSize{
     _fontSize = fontSize;
-    if (!fontSize || _fontSize < 20) {
-        _fontSize = 20;
+    if (!fontSize || _fontSize < 18) {
+        _fontSize = 18;
     }
     self.textInput.font = [UIFont systemFontOfSize:_fontSize];
     CGFloat lineH = self.textInput.font.lineHeight;
