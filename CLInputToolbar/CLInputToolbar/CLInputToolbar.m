@@ -22,10 +22,6 @@
 @property (nonatomic, strong) UITextView *textInput;
 /**textView占位符*/
 @property (nonatomic, strong) UILabel *placeholderLabel;
-/**文本输入框最高高度*/
-@property (nonatomic, assign) NSInteger textInputMaxHeight;
-/**文本输入框高度*/
-@property (nonatomic, assign) CGFloat textInputHeight;
 /**键盘高度*/
 @property (nonatomic, assign) CGFloat keyboardHeight;
 /**当前键盘是否可见*/
@@ -87,7 +83,7 @@
     [self.sendBtn.layer setCornerRadius:5.0];
     self.sendBtn.layer.borderColor=[UIColor grayColor].CGColor;
     self.sendBtn.enabled = NO;
-    self.sendBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+    self.sendBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [self.sendBtn setTitle:@"发送" forState:UIControlStateNormal];
     [self.sendBtn setTitleColor:RGBACOLOR(0, 0, 0, 0.2) forState:UIControlStateNormal];
     [self.sendBtn addTarget:self action:@selector(didClickSendBtn) forControlEvents:UIControlEventTouchUpInside];
@@ -154,6 +150,7 @@
 }
 #pragma mark UITextViewDelegate
 - (void)textViewDidChange:(UITextView *)textView {
+    
     if (textView.text.length == 0) {
         self.placeholderLabel.text = _placeholder;
         self.sendBtn.enabled = NO;
@@ -164,40 +161,39 @@
         [self.sendBtn setTitleColor:RGBACOLOR(0, 0, 0, 0.9) forState:UIControlStateNormal];
     }
     //记录光标位置
-    NSUInteger loc = textView.selectedRange.location;
-    // 判断是否有候选字符，如果不为nil，代表有候选字符
-    if(textView.markedTextRange == nil){
-        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-        paragraphStyle.lineSpacing = 12; // 字体的行间距
-        paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
-        
-        NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:_fontSize],
-                                     NSParagraphStyleAttributeName:paragraphStyle
-                                     };
-        textView.attributedText = [[NSAttributedString alloc] initWithString:textView.text attributes:attributes];
-    }
+    UITextRange* selectedRange = textView.selectedTextRange;
+//    // 判断是否有候选字符，如果不为nil，代表有候选字符
+//    if(textView.markedTextRange == nil){
+//        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+//        paragraphStyle.lineSpacing = 12; // 字体的行间距
+//        paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
+//
+//        NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:_fontSize],
+//                                     NSParagraphStyleAttributeName:paragraphStyle
+//                                     };
+//        textView.attributedText = [[NSAttributedString alloc] initWithString:textView.text attributes:attributes];
+//    }
 
     
     CGFloat contentSizeH = self.textInput.contentSize.height;
     CGFloat lineH = self.textInput.font.lineHeight;
     CGFloat contentH = contentSizeH - _fontSize;
-    int line = (contentH + 12) / (lineH + 12);
+    int line = (contentH + 0) / (lineH + 0);
     if (line == 0) {
         _needAdd = YES;
     }
     if (_needAdd) {
         line ++;
     }
-    NSLog(@"%d-----%ld",line,textView.text.length);
+    NSLog(@"-----%d-----",line);
     if (line > self.textViewMaxLine) {
-        self.textInput.CLheight = self.textViewMaxLine * lineH + 12 * (self.textViewMaxLine - 1);
+        self.textInput.CLheight = self.textViewMaxLine * lineH + 0 * (self.textViewMaxLine - 1);
     }else{
-        _textInputMaxHeight = contentSizeH;
-        self.textInput.CLheight = _textInputMaxHeight;
+        self.textInput.CLheight = contentSizeH;
         [self.textInput scrollRangeToVisible:NSMakeRange(self.textInput.text.length, 1)];
     }
-        //还原光标位置
-        textView.selectedRange = NSMakeRange(loc, 0);
+    //恢复光标位置
+    [textView setSelectedTextRange:selectedRange];
     self.CLheight = self.textInput.CLheight + 10 + 10;
     self.CLbottom = CLscreenHeight - _keyboardHeight;
     self.placeholderLabel.CLheight = self.textInput.CLheight + 10;
