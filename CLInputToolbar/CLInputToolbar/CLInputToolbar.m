@@ -7,6 +7,7 @@
 //
 
 #import "CLInputToolbar.h"
+#import "CLInputTextView.h"
 #import "UIView+CLSetRect.h"
 
 //按钮高
@@ -19,7 +20,7 @@
 
 @interface CLInputToolbar ()<UITextViewDelegate>
 /**文本输入框*/
-@property (nonatomic, strong) UITextView *textInput;
+@property (nonatomic, strong) CLInputTextView *textInput;
 /**textView占位符*/
 @property (nonatomic, strong) UILabel *placeholderLabel;
 /**键盘高度*/
@@ -32,6 +33,8 @@
 @property (nonatomic, strong) UIButton *sendBtn;
 /**原始Y*/
 @property (nonatomic, assign) CGFloat origin_y;
+/**记录上一次的行*/
+@property (nonatomic, assign) NSInteger lastLine;
 
 @end
 
@@ -54,7 +57,7 @@
 //    [self addSubview:line];
     
     
-    self.textInput = [[UITextView alloc] init];;
+    self.textInput = [[CLInputTextView alloc] init];;
     self.textInput.CLwidth = self.CLwidth - kButtonW - 46;
     self.textInput.CLleft = 18;
     self.textInput.returnKeyType = UIReturnKeySend;
@@ -150,7 +153,6 @@
 }
 #pragma mark UITextViewDelegate
 - (void)textViewDidChange:(UITextView *)textView {
-    
     if (textView.text.length == 0) {
         self.placeholderLabel.text = _placeholder;
         self.sendBtn.enabled = NO;
@@ -160,39 +162,48 @@
         self.sendBtn.enabled = YES;
         [self.sendBtn setTitleColor:RGBACOLOR(0, 0, 0, 0.9) forState:UIControlStateNormal];
     }
-    //记录光标位置
-    UITextRange* selectedRange = textView.selectedTextRange;
     // 判断是否有候选字符，如果不为nil，代表有候选字符
     if(textView.markedTextRange == nil){
+        //记录光标位置
+        UITextRange* selectedRange = textView.selectedTextRange;
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-        paragraphStyle.lineSpacing = 12; // 字体的行间距
+        paragraphStyle.lineSpacing = 18; // 字体的行间距
         paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
 
         NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:_fontSize],
                                      NSParagraphStyleAttributeName:paragraphStyle
                                      };
         textView.attributedText = [[NSAttributedString alloc] initWithString:textView.text attributes:attributes];
+        //恢复光标位置
+        [textView setSelectedTextRange:selectedRange];
+        NSUInteger loc = textView.selectedRange.location;
+        [self.textInput scrollRangeToVisible:NSMakeRange(loc, 0)];
+        
+        
     }
-    //恢复光标位置
-    [textView setSelectedTextRange:selectedRange];
+    
     CGFloat contentSizeH = self.textInput.contentSize.height;
     CGFloat lineH = self.textInput.font.lineHeight;
     CGFloat contentH = contentSizeH - _fontSize;
-    int line = (contentH + 12) / (lineH + 12);
+    NSInteger line = (contentH + 18) / (lineH + 18);
+    
+    
     if (line == 0) {
         _needAdd = YES;
     }
     if (_needAdd) {
         line ++;
     }
+//    NSLog(@"---%ld--->>>%ld----",line,_lastLine);
     if (line > self.textViewMaxLine) {
-        self.textInput.CLheight = self.textViewMaxLine * lineH + 12 * (self.textViewMaxLine - 1);
-        CGPoint bottomOffset = CGPointMake(0.0f, self.textInput.contentSize.height - self.textInput.bounds.size.height);
-        [self.textInput setContentOffset:bottomOffset animated:YES];
+        self.textInput.CLheight = self.textViewMaxLine * lineH + 18 * (self.textViewMaxLine - 1);
+        if (_lastLine < line) {
+            textView.contentOffset = CGPointMake(textView.contentOffset.x, textView.contentOffset.y + 18 + lineH);
+        }
     }else{
         self.textInput.CLheight = contentSizeH;
     }
-    
+
     self.CLheight = self.textInput.CLheight + 10 + 10;
     self.CLbottom = CLscreenHeight - _keyboardHeight;
     self.placeholderLabel.CLheight = self.textInput.CLheight + 10;
@@ -200,10 +211,14 @@
     self.sendBtn.CLcenterY = self.CLheight * 0.5;
     self.placeholderLabel.CLcenterY = self.CLheight * 0.5;
     
-    NSUInteger loc = textView.selectedRange.location;
-    [self.textInput scrollRangeToVisible:NSMakeRange(loc, 1)];
-    
+    _lastLine = line;
 }
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+
+}
+
+
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     // 点击return按钮
     if ([text isEqualToString:@"\n"]){
