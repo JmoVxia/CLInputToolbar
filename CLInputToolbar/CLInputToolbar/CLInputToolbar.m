@@ -162,44 +162,47 @@
     }
     //记录光标位置
     UITextRange* selectedRange = textView.selectedTextRange;
-//    // 判断是否有候选字符，如果不为nil，代表有候选字符
-//    if(textView.markedTextRange == nil){
-//        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-//        paragraphStyle.lineSpacing = 12; // 字体的行间距
-//        paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
-//
-//        NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:_fontSize],
-//                                     NSParagraphStyleAttributeName:paragraphStyle
-//                                     };
-//        textView.attributedText = [[NSAttributedString alloc] initWithString:textView.text attributes:attributes];
-//    }
+    // 判断是否有候选字符，如果不为nil，代表有候选字符
+    if(textView.markedTextRange == nil){
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.lineSpacing = 12; // 字体的行间距
+        paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
 
-    
+        NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:_fontSize],
+                                     NSParagraphStyleAttributeName:paragraphStyle
+                                     };
+        textView.attributedText = [[NSAttributedString alloc] initWithString:textView.text attributes:attributes];
+    }
+    //恢复光标位置
+    [textView setSelectedTextRange:selectedRange];
     CGFloat contentSizeH = self.textInput.contentSize.height;
     CGFloat lineH = self.textInput.font.lineHeight;
     CGFloat contentH = contentSizeH - _fontSize;
-    int line = (contentH + 0) / (lineH + 0);
+    int line = (contentH + 12) / (lineH + 12);
     if (line == 0) {
         _needAdd = YES;
     }
     if (_needAdd) {
         line ++;
     }
-    NSLog(@"-----%d-----",line);
     if (line > self.textViewMaxLine) {
-        self.textInput.CLheight = self.textViewMaxLine * lineH + 0 * (self.textViewMaxLine - 1);
+        self.textInput.CLheight = self.textViewMaxLine * lineH + 12 * (self.textViewMaxLine - 1);
+        CGPoint bottomOffset = CGPointMake(0.0f, self.textInput.contentSize.height - self.textInput.bounds.size.height);
+        [self.textInput setContentOffset:bottomOffset animated:YES];
     }else{
         self.textInput.CLheight = contentSizeH;
-        [self.textInput scrollRangeToVisible:NSMakeRange(self.textInput.text.length, 1)];
     }
-    //恢复光标位置
-    [textView setSelectedTextRange:selectedRange];
+    
     self.CLheight = self.textInput.CLheight + 10 + 10;
     self.CLbottom = CLscreenHeight - _keyboardHeight;
     self.placeholderLabel.CLheight = self.textInput.CLheight + 10;
     self.textInput.CLcenterY = self.CLheight * 0.5;
     self.sendBtn.CLcenterY = self.CLheight * 0.5;
     self.placeholderLabel.CLcenterY = self.CLheight * 0.5;
+    
+    NSUInteger loc = textView.selectedRange.location;
+    [self.textInput scrollRangeToVisible:NSMakeRange(loc, 1)];
+    
 }
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     // 点击return按钮

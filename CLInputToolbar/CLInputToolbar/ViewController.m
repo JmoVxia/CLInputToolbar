@@ -41,7 +41,7 @@
     [self.view addSubview:self.maskView];
     self.maskView.hidden = YES;
     self.inputToolbar = [[CLInputToolbar alloc] initWithFrame:CGRectMake(0,self.view.CLheight, self.view.CLwidth, 50)];
-    self.inputToolbar.textViewMaxLine = 4;
+    self.inputToolbar.textViewMaxLine = 3;
     self.inputToolbar.fontSize = 28;
     self.inputToolbar.delegate = self;
     self.inputToolbar.placeholder = @"  请输入...";
