@@ -16,12 +16,15 @@
 
 #define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:(a)]
 
-
 @interface CLInputToolbar ()<UITextViewDelegate>
 /**文本输入框*/
-@property (nonatomic, strong) UITextView *textInput;
+@property (nonatomic, strong) UITextView *textView;
 /**textView占位符*/
 @property (nonatomic, strong) UILabel *placeholderLabel;
+/**顶部线条*/
+@property (nonatomic, strong) UIView *topLine;
+/**底部线条*/
+@property (nonatomic, strong) UIView *bottomLine;
 /**键盘高度*/
 @property (nonatomic, assign) CGFloat keyboardHeight;
 /**当前键盘是否可见*/
@@ -32,9 +35,6 @@
 @property (nonatomic, strong) UIButton *sendBtn;
 /**原始Y*/
 @property (nonatomic, assign) CGFloat origin_y;
-/**记录上一次的行*/
-@property (nonatomic, assign) NSInteger lastLine;
-
 @end
 
 @implementation CLInputToolbar
@@ -50,24 +50,33 @@
 
 -(void)initView {
     self.backgroundColor = [UIColor whiteColor];
-    self.textViewMaxLine = 4;
     
-    self.textInput = [[UITextView alloc] init];;
-    self.textInput.CLwidth = self.CLwidth - CLButtonWidth - 46;
-    self.textInput.CLleft = 18;
-    self.textInput.enablesReturnKeyAutomatically = YES;
-    self.textInput.delegate = self;
-    self.textInput.layoutManager.allowsNonContiguousLayout = NO;
-    self.textInput.scrollsToTop = NO;
-    self.textInput.textContainerInset = UIEdgeInsetsZero;
-    self.textInput.textContainer.lineFragmentPadding = 0;
-    [self addSubview:self.textInput];
+    self.topLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.CLwidth, 1)];
+    self.topLine.backgroundColor = RGBACOLOR(0, 0, 0, 0.2);
+    [self addSubview:self.topLine];
+    
+    self.bottomLine = [[UIView alloc] initWithFrame:CGRectMake(0, self.CLheight - 1, self.CLwidth, 1)];
+    self.bottomLine.backgroundColor = RGBACOLOR(0, 0, 0, 0.2);
+    [self addSubview:self.bottomLine];
+    
+    
+    
+    self.textView = [[UITextView alloc] init];;
+    self.textView.CLwidth = self.CLwidth - CLButtonWidth - 46;
+    self.textView.CLleft = 18;
+    self.textView.enablesReturnKeyAutomatically = YES;
+    self.textView.delegate = self;
+    self.textView.layoutManager.allowsNonContiguousLayout = NO;
+    self.textView.scrollsToTop = NO;
+    self.textView.textContainerInset = UIEdgeInsetsZero;
+    self.textView.textContainer.lineFragmentPadding = 0;
+    [self addSubview:self.textView];
     
     self.placeholderLabel = [[UILabel alloc]init];
     self.placeholderLabel.CLwidth = self.CLwidth - CLButtonWidth - 30;
     self.placeholderLabel.CLleft = 10;
     self.placeholderLabel.textColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
-    self.placeholderLabel.font = self.textInput.font;
+    self.placeholderLabel.font = self.textView.font;
     self.placeholderLabel.layer.cornerRadius = 5;
     self.placeholderLabel.layer.borderColor = RGBACOLOR(227, 228, 232, 1).CGColor;
     self.placeholderLabel.layer.borderWidth = 1;
@@ -75,7 +84,6 @@
     [self addSubview:self.placeholderLabel];
     
     self.sendBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.CLwidth - CLButtonWidth - 10, self.CLheight - CLButtonHeight - 10, CLButtonWidth, CLButtonHeight)];
-    //边框圆角
     [self.sendBtn.layer setBorderWidth:1.0];
     [self.sendBtn.layer setCornerRadius:5.0];
     self.sendBtn.layer.borderColor=[UIColor grayColor].CGColor;
@@ -87,6 +95,7 @@
     [self addSubview:self.sendBtn];
     
     self.fontSize = 20;
+    self.textViewMaxLine = 4;
 
 }
 -(void)setFontSize:(CGFloat)fontSize{
@@ -94,14 +103,15 @@
     if (!fontSize || _fontSize < 20) {
         _fontSize = 20;
     }
-    self.textInput.font = [UIFont systemFontOfSize:_fontSize];
-    CGFloat lineH = self.textInput.font.lineHeight;
+    self.textView.font = [UIFont systemFontOfSize:_fontSize];
+    CGFloat lineH = self.textView.font.lineHeight;
     self.CLheight = ceil(lineH) + 10 + 10;
-    self.textInput.CLheight = lineH;
+    self.textView.CLheight = lineH;
     self.placeholderLabel.CLheight = lineH + 10;
-    self.textInput.CLcenterY = self.CLheight * 0.5;
+    self.textView.CLcenterY = self.CLheight * 0.5;
     self.placeholderLabel.CLcenterY = self.CLheight * 0.5;
     self.sendBtn.CLcenterY = self.CLheight * 0.5;
+    self.bottomLine.CLy = self.CLheight - 1;
 }
 - (void)setTextViewMaxLine:(NSInteger)textViewMaxLine {
     _textViewMaxLine = textViewMaxLine;
@@ -152,7 +162,9 @@
         self.sendBtn.enabled = YES;
         [self.sendBtn setTitleColor:RGBACOLOR(0, 0, 0, 0.9) forState:UIControlStateNormal];
     }
-    [textView scrollRangeToVisible:NSMakeRange(textView.selectedRange.location, 0)];
+    //记录光标位置
+    UITextRange* selectedRange = textView.selectedTextRange;
+    
     CGFloat contentSizeH = textView.contentSize.height;
     CGFloat lineH = textView.font.lineHeight;
     CGFloat contentH = contentSizeH - _fontSize;
@@ -165,28 +177,33 @@
     }
     if (line <= self.textViewMaxLine) {
         textView.CLheight = contentSizeH;
+    }else{
+        textView.CLheight = self.textViewMaxLine * lineH;
     }
-    self.CLheight = self.textInput.CLheight + 10 + 10;
+    self.CLheight = ceil(self.textView.CLheight) + 10 + 10;
     self.CLbottom = CLscreenHeight - _keyboardHeight;
-    self.placeholderLabel.CLheight = self.textInput.CLheight + 10;
-    self.textInput.CLcenterY = self.CLheight * 0.5;
+    self.placeholderLabel.CLheight = self.textView.CLheight + 10;
+    self.textView.CLcenterY = self.CLheight * 0.5;
     self.sendBtn.CLcenterY = self.CLheight * 0.5;
     self.placeholderLabel.CLcenterY = self.CLheight * 0.5;
+    self.bottomLine.CLy = self.CLheight - 1;
+    //恢复光标位置
+    [textView setSelectedTextRange:selectedRange];
 }
 // 发送按钮
 -(void)didClickSendBtn {
     if ([_delegate respondsToSelector:@selector(inputToolbarSendString:)]) {
-        [_delegate inputToolbarSendString:self.textInput.text];
+        [_delegate inputToolbarSendString:self.textView.text];
     }
 }
 - (void)popToolbar{
     self.fontSize = _fontSize;
-    [self.textInput becomeFirstResponder];
+    [self.textView becomeFirstResponder];
 }
 // 发送成功 清空文字 更新输入框大小
 -(void)bounceToolbar {
-    self.textInput.text = nil;
-    [self.textInput.delegate textViewDidChange:self.textInput];
+    self.textView.text = nil;
+    [self.textView.delegate textViewDidChange:self.textView];
     [self endEditing:YES];
 }
 - (void)dealloc{
