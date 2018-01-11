@@ -14,7 +14,7 @@
 - (void)inputToolbarSendString:(NSString *)string;
 @end
 
-@interface CLInputToolbar : UIButton
+@interface CLInputToolbar : UIView
 
 /**代理*/
 @property (nonatomic, weak) id<CLInputToolbarDelegate> delegate;

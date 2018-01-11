@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5B0DE8C22005F67200767930 /* CLInputTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B0DE8C12005F67200767930 /* CLInputTextView.m */; };
 		5BD1A0481F441FBB00B4F7C0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1A0471F441FBB00B4F7C0 /* main.m */; };
 		5BD1A04B1F441FBB00B4F7C0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1A04A1F441FBB00B4F7C0 /* AppDelegate.m */; };
 		5BD1A04E1F441FBB00B4F7C0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1A04D1F441FBB00B4F7C0 /* ViewController.m */; };
@@ -19,8 +18,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5B0DE8C02005F67200767930 /* CLInputTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CLInputTextView.h; sourceTree = "<group>"; };
-		5B0DE8C12005F67200767930 /* CLInputTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CLInputTextView.m; sourceTree = "<group>"; };
 		5BD1A0431F441FBB00B4F7C0 /* CLInputToolbar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CLInputToolbar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BD1A0471F441FBB00B4F7C0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5BD1A0491F441FBB00B4F7C0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -75,8 +72,6 @@
 				5BD1A07A1F4424FA00B4F7C0 /* UIView+CLSetRect.m */,
 				5BD1A07C1F44251600B4F7C0 /* CLInputToolbar.h */,
 				5BD1A07D1F44251600B4F7C0 /* CLInputToolbar.m */,
-				5B0DE8C02005F67200767930 /* CLInputTextView.h */,
-				5B0DE8C12005F67200767930 /* CLInputTextView.m */,
 				5BD1A0461F441FBB00B4F7C0 /* Supporting Files */,
 			);
 			path = CLInputToolbar;
@@ -167,7 +162,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5BD1A04E1F441FBB00B4F7C0 /* ViewController.m in Sources */,
-				5B0DE8C22005F67200767930 /* CLInputTextView.m in Sources */,
 				5BD1A04B1F441FBB00B4F7C0 /* AppDelegate.m in Sources */,
 				5BD1A07B1F4424FA00B4F7C0 /* UIView+CLSetRect.m in Sources */,
 				5BD1A0481F441FBB00B4F7C0 /* main.m in Sources */,

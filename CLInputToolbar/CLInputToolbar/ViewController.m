@@ -21,7 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.btn = [[UIButton alloc] initWithFrame:CGRectMake(10, 30, self.view.CLwidth - 20, 100)];
-    [self.btn setBackgroundColor:[UIColor redColor]];
+    [self.btn setBackgroundColor:[UIColor orangeColor]];
     [self.btn setTitle:@"点我" forState:UIControlStateNormal];
     [self.btn addTarget:self action:@selector(didTouchBtn) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.btn];
@@ -41,7 +41,7 @@
     [self.view addSubview:self.maskView];
     self.maskView.hidden = YES;
     self.inputToolbar = [[CLInputToolbar alloc] initWithFrame:CGRectMake(0,self.view.CLheight, self.view.CLwidth, 50)];
-    self.inputToolbar.textViewMaxLine = 3;
+    self.inputToolbar.textViewMaxLine = 4;
     self.inputToolbar.fontSize = 28;
     self.inputToolbar.delegate = self;
     self.inputToolbar.placeholder = @"  请输入...";
