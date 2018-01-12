@@ -75,7 +75,6 @@
     self.placeholderLabel.CLwidth = self.CLwidth - CLButtonWidth - 30;
     self.placeholderLabel.CLleft = 10;
     self.placeholderLabel.textColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
-    self.placeholderLabel.font = self.textView.font;
     self.placeholderLabel.layer.cornerRadius = 5;
     self.placeholderLabel.layer.borderColor = RGBACOLOR(227, 228, 232, 1).CGColor;
     self.placeholderLabel.layer.borderWidth = 1;
@@ -103,6 +102,7 @@
         _fontSize = 20;
     }
     self.textView.font = [UIFont systemFontOfSize:_fontSize];
+    self.placeholderLabel.font = self.textView.font;
     CGFloat lineH = self.textView.font.lineHeight;
     self.CLheight = ceil(lineH) + 10 + 10;
     self.textView.CLheight = lineH;
@@ -163,18 +163,11 @@
     }
     CGFloat contentSizeH = textView.contentSize.height;
     CGFloat lineH = textView.font.lineHeight;
-    CGFloat contentH = contentSizeH - _fontSize;
-    NSInteger line = (contentH) / (lineH);
-    if (line == 0) {
-        _needAdd = YES;
-    }
-    if (_needAdd) {
-        line ++;
-    }
-    if (line <= self.textViewMaxLine) {
+    CGFloat maxTextViewHeight = ceil(lineH * self.textViewMaxLine + textView.textContainerInset.top + textView.textContainerInset.bottom);
+    if (contentSizeH <= maxTextViewHeight) {
         textView.CLheight = contentSizeH;
     }else{
-        textView.CLheight = self.textViewMaxLine * lineH;
+        textView.CLheight = maxTextViewHeight;
     }
     self.CLheight = ceil(self.textView.CLheight) + 10 + 10;
     self.CLbottom = CLscreenHeight - _keyboardHeight;
