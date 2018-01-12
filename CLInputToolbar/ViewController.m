@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "UIView+CLSetRect.h"
 #import "CLInputToolbar.h"
-@interface ViewController ()<CLInputToolbarDelegate>
+@interface ViewController ()
 @property (nonatomic, strong) CLInputToolbar *inputToolbar;
 @property (nonatomic, strong) UIView *maskView;
 @property (nonatomic, strong) UIButton *btn;
@@ -40,11 +40,18 @@
     
     [self.view addSubview:self.maskView];
     self.maskView.hidden = YES;
-    self.inputToolbar = [[CLInputToolbar alloc] initWithFrame:CGRectMake(0,self.view.CLheight, self.view.CLwidth, 50)];
+    self.inputToolbar = [[CLInputToolbar alloc] init];
     self.inputToolbar.textViewMaxLine = 4;
-    self.inputToolbar.fontSize = 40;
-    self.inputToolbar.delegate = self;
+    self.inputToolbar.fontSize = 18;
     self.inputToolbar.placeholder = @"请输入...";
+    __weak __typeof(self) weakSelf = self;
+    [self.inputToolbar inputToolbarSendText:^(NSString *text) {
+        __typeof(&*weakSelf) strongSelf = weakSelf;
+        [strongSelf.btn setTitle:text forState:UIControlStateNormal];
+        // 清空输入框文字
+        [strongSelf.inputToolbar bounceToolbar];
+        strongSelf.maskView.hidden = YES;
+    }];
     [self.maskView addSubview:self.inputToolbar];
 }
 
@@ -55,14 +62,6 @@
 -(void)tapActions:(UITapGestureRecognizer *)tap {
     [self.inputToolbar bounceToolbar];
     self.maskView.hidden = YES;
-}
-#pragma mark - ZInputToolbarDelegate
-- (void)inputToolbarSendString:(NSString *)string {
-    [self.btn setTitle:string forState:UIControlStateNormal];
-    // 清空输入框文字
-    [self.inputToolbar bounceToolbar];
-    self.maskView.hidden = YES;
-
 }
 
 

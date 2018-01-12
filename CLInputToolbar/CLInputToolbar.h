@@ -7,23 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-@class CLInputToolbar;
 
-@protocol CLInputToolbarDelegate <NSObject>
-@optional
-- (void)inputToolbarSendString:(NSString *)string;
-@end
+typedef void(^inputTextBlock)(NSString *text);
 
 @interface CLInputToolbar : UIView
 
-/**代理*/
-@property (nonatomic, weak) id<CLInputToolbarDelegate> delegate;
 /**设置输入框最大行数*/
 @property (nonatomic, assign) NSInteger textViewMaxLine;
 /**输入框文字大小*/
 @property (nonatomic, assign) CGFloat fontSize;
-/**键盘是否隐藏回调*/
-@property (nonatomic, copy) void (^keyIsVisiableBlock)(BOOL keyboardIsVisiable);
 /**占位文字*/
 @property (nonatomic, copy) NSString *placeholder;
 
@@ -31,6 +23,6 @@
 -(void)bounceToolbar;
 /**弹出键盘*/
 - (void)popToolbar;
-
-
+/**点击发送后的文字*/
+- (void)inputToolbarSendText:(inputTextBlock)sendText;
 @end
