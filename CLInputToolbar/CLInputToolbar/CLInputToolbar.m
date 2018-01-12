@@ -35,6 +35,7 @@
 @property (nonatomic, strong) UIButton *sendBtn;
 /**原始Y*/
 @property (nonatomic, assign) CGFloat origin_y;
+
 @end
 
 @implementation CLInputToolbar
@@ -58,8 +59,6 @@
     self.bottomLine = [[UIView alloc] initWithFrame:CGRectMake(0, self.CLheight - 1, self.CLwidth, 1)];
     self.bottomLine.backgroundColor = RGBACOLOR(0, 0, 0, 0.2);
     [self addSubview:self.bottomLine];
-    
-    
     
     self.textView = [[UITextView alloc] init];;
     self.textView.CLwidth = self.CLwidth - CLButtonWidth - 46;
@@ -162,9 +161,6 @@
         self.sendBtn.enabled = YES;
         [self.sendBtn setTitleColor:RGBACOLOR(0, 0, 0, 0.9) forState:UIControlStateNormal];
     }
-    //记录光标位置
-    UITextRange* selectedRange = textView.selectedTextRange;
-    
     CGFloat contentSizeH = textView.contentSize.height;
     CGFloat lineH = textView.font.lineHeight;
     CGFloat contentH = contentSizeH - _fontSize;
@@ -187,8 +183,7 @@
     self.sendBtn.CLcenterY = self.CLheight * 0.5;
     self.placeholderLabel.CLcenterY = self.CLheight * 0.5;
     self.bottomLine.CLy = self.CLheight - 1;
-    //恢复光标位置
-    [textView setSelectedTextRange:selectedRange];
+    [textView scrollRangeToVisible:NSMakeRange(textView.selectedRange.location, 1)];
 }
 // 发送按钮
 -(void)didClickSendBtn {
