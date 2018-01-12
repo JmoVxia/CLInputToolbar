@@ -1,3 +1,0 @@
-target 'CLInputToolbar' do
-pod 'Masonry'
-end
