@@ -36,12 +36,10 @@
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapActions:)];
     [self.maskView addGestureRecognizer:tap];
-    
-    
     [self.view addSubview:self.maskView];
     self.maskView.hidden = YES;
     self.inputToolbar = [[CLInputToolbar alloc] init];
-    self.inputToolbar.textViewMaxLine = 4;
+    self.inputToolbar.textViewMaxLine = 3;
     self.inputToolbar.fontSize = 18;
     self.inputToolbar.placeholder = @"请输入...";
     __weak __typeof(self) weakSelf = self;
