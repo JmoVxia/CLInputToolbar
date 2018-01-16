@@ -1,9 +1,9 @@
 
-#前言
+# 前言
 一款聊天类型的APP，文字输入框是必不可少的，在此简单写了一个Demo供大家参考，希望能够抛砖引玉。
-#思路
+# 思路
 为了方便封装UI，将UITextView封装到一个UIView中。UIView内部需要监听键盘的弹出和消失，根据文字动态计算UITextView的高度，达到指定的最高高度后，UITextView高度不变化，文字自动上移。
-####1.基本UI框架搭建
+#### 1.基本UI框架搭建
 UI比较简单，就不细说了，具体代码如下。
 ```
 -(void)initView {
@@ -59,7 +59,7 @@ self.fontSize = 20;
 self.textViewMaxLine = 3;
 }
 ```
-####2.监听键盘弹出和收回
+#### 2.监听键盘弹出和收回
 输入框需要跟随键盘的弹出和收回，监听键盘相对应的通知事件，根据键盘弹出时间等做出相应的处理。
 ```
 #pragma mark keyboardnotification
@@ -78,7 +78,7 @@ self.CLy = CLscreenHeight;
 }];
 }
 ```
-####3.根据文字动态改变输入框高度
+#### 3.根据文字动态改变输入框高度
 在UITextView代理中，通过文字计算需要的高度，判断是否达到最大高度，没有达到的情况就改变输入框的高度，超过最大高度，文字上移，高度不变。
 ```
 #pragma mark UITextViewDelegate
@@ -104,7 +104,7 @@ self.CLbottom = CLscreenHeight - _keyboardHeight;
 [textView scrollRangeToVisible:NSMakeRange(textView.selectedRange.location, 1)];
 }
 ```
-#接口
+# 接口
 简单封装了一下，给出了一些接口，具体如下。
 ```
 /**设置输入框最大行数*/
@@ -121,11 +121,11 @@ self.CLbottom = CLscreenHeight - _keyboardHeight;
 /**点击发送后的文字*/
 - (void)inputToolbarSendText:(inputTextBlock)sendText;
 ```
-#效果图
+# 效果图
 ![](http://upload-images.jianshu.io/upload_images/1979970-a3953705a36dd81e.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![1.gif](http://upload-images.jianshu.io/upload_images/1979970-a2b5817e5e576874.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-#其他
-####1.修改光标宽高
+# 其他
+#### 1.修改光标宽高
 自定义一个继承自UITextView的控件，内部重写下面方法即可。
 ```
 - (CGRect)caretRectForPosition:(UITextPosition *)position
@@ -138,11 +138,11 @@ originalRect.size.height = self.font.lineHeight;
 return originalRect;
 }
 ```
-####2.修改光标颜色
+#### 2.修改光标颜色
 ```
 [self.textView setTintColor:[UIColor redColor]];
 ```
-####3.修改行间距
+#### 3.修改行间距
 ```
 NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
 paragraphStyle.lineSpacing = 20;// 字体的行间距
@@ -152,9 +152,6 @@ NSParagraphStyleAttributeName:paragraphStyle
 };
 self.textView.typingAttributes = attributes;
 ```
-#总结
-代码比较简单，完整项目地址------>[CLInputToolbar](https://github.com/JmoVxia/CLInputToolbar)
-
 
 
 
