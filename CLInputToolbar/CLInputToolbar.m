@@ -12,6 +12,8 @@
 #define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:(a)]
 
 @interface CLInputToolbar ()<UITextViewDelegate>
+/*遮罩*/
+@property (nonatomic, strong) UIView *maskView;
 /**文本输入框*/
 @property (nonatomic, strong) UITextView *textView;
 /**边框*/
@@ -42,6 +44,12 @@
 }
 -(void)initView {
     self.backgroundColor = [UIColor whiteColor];
+    self.maskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CLscreenWidth, CLscreenHeight)];
+    self.maskView.backgroundColor = [UIColor lightGrayColor];
+    self.maskView.alpha = 0.5;
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapActions:)];
+    [self.maskView addGestureRecognizer:tapGestureRecognizer];
+    
     //顶部线条
     self.topLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.CLwidth, 1)];
     self.topLine.backgroundColor = RGBACOLOR(0, 0, 0, 0.2);
@@ -94,8 +102,8 @@
 
 -(void)setFontSize:(CGFloat)fontSize{
     _fontSize = fontSize;
-    if (!fontSize || _fontSize < 20) {
-        _fontSize = 20;
+    if (!fontSize || _fontSize < 18) {
+        _fontSize = 18;
     }
     self.textView.font = [UIFont systemFontOfSize:_fontSize];
     self.placeholderLabel.font = self.textView.font;
@@ -141,6 +149,9 @@
     }
     [textView scrollRangeToVisible:NSMakeRange(textView.selectedRange.location, 1)];
 }
+- (void)tapActions:(UITapGestureRecognizer *)tapGestureRecognizer {
+    [self dissmissToolbar];
+}
 - (NSString *)inputText {
     return self.textView.text;
 }
@@ -154,6 +165,9 @@
     self.sendBlock = sendBlock;
 }
 - (void)showToolbar{
+    if (_showMaskView) {
+        [[UIApplication sharedApplication].keyWindow addSubview:self.maskView];
+    }
     [[UIApplication sharedApplication].keyWindow addSubview:self];
     self.fontSize = _fontSize;
     [self.textView becomeFirstResponder];
@@ -163,6 +177,9 @@
     [self.textView.delegate textViewDidChange:self.textView];
     [self endEditing:YES];
     [self removeFromSuperview];
+    if (_showMaskView) {
+        [self.maskView removeFromSuperview];
+    }
 }
 - (void)clearText {
     self.textView.text = nil;

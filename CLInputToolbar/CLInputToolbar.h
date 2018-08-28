@@ -11,7 +11,8 @@
 typedef void(^inputToolBarSendBlock)(NSString *text);
 
 @interface CLInputToolbar : UIView
-
+/*显示遮罩*/
+@property (nonatomic, assign) BOOL showMaskView;
 /**设置输入框最大行数*/
 @property (nonatomic, assign) NSInteger textViewMaxLine;
 /**输入框文字大小*/

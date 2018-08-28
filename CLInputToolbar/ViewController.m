@@ -11,7 +11,6 @@
 #import "CLInputToolbar.h"
 @interface ViewController ()
 @property (nonatomic, strong) CLInputToolbar *inputToolbar;
-@property (nonatomic, strong) UIView *maskView;
 @property (nonatomic, strong) UIButton *btn;
 
 @end
@@ -30,17 +29,11 @@
 }
 
 -(void)setTextViewToolbar {
-    
-    self.maskView = [[UIView alloc] initWithFrame:self.view.bounds];
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapActions:)];
-    [self.maskView addGestureRecognizer:tap];
-    [self.view addSubview:self.maskView];
-    self.maskView.hidden = YES;
     self.inputToolbar = [[CLInputToolbar alloc] init];
     self.inputToolbar.textViewMaxLine = 3;
-    self.inputToolbar.fontSize = 18;
+//    self.inputToolbar.fontSize = 20;
     self.inputToolbar.placeholder = @"请输入...";
+    self.inputToolbar.showMaskView = YES;
     __weak __typeof(self) weakSelf = self;
     [self.inputToolbar inputToolbarSendText:^(NSString *text) {
         __typeof(&*weakSelf) strongSelf = weakSelf;
@@ -52,12 +45,7 @@
 }
 
 -(void)didTouchBtn {
-    self.maskView.hidden = NO;
     [self.inputToolbar showToolbar];
-}
--(void)tapActions:(UITapGestureRecognizer *)tap {
-    self.maskView.hidden = YES;
-    [self.inputToolbar dissmissToolbar];
 }
 
 
