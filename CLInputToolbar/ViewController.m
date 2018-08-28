@@ -31,7 +31,7 @@
 -(void)setTextViewToolbar {
     self.inputToolbar = [[CLInputToolbar alloc] init];
     self.inputToolbar.textViewMaxLine = 3;
-//    self.inputToolbar.fontSize = 20;
+    self.inputToolbar.fontSize = 20;
     self.inputToolbar.placeholder = @"请输入...";
     self.inputToolbar.showMaskView = YES;
     __weak __typeof(self) weakSelf = self;

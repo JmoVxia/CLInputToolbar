@@ -26,6 +26,8 @@
 @property (nonatomic, strong) UILabel *placeholderLabel;
 /**发送按钮*/
 @property (nonatomic, strong) UIButton *sendButton;
+/*keyWindow*/
+@property (nonatomic, strong) UIWindow *keyWindow;
 /**键盘高度*/
 @property (nonatomic, assign) CGFloat keyboardHeight;
 /**发送回调*/
@@ -44,57 +46,17 @@
 }
 -(void)initView {
     self.backgroundColor = [UIColor whiteColor];
-    self.maskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CLscreenWidth, CLscreenHeight)];
-    self.maskView.backgroundColor = [UIColor lightGrayColor];
-    self.maskView.alpha = 0.5;
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapActions:)];
-    [self.maskView addGestureRecognizer:tapGestureRecognizer];
-    
     //顶部线条
-    self.topLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.CLwidth, 1)];
-    self.topLine.backgroundColor = RGBACOLOR(0, 0, 0, 0.2);
     [self addSubview:self.topLine];
     //底部线条
-    self.bottomLine = [[UIView alloc] initWithFrame:CGRectMake(0, self.CLheight - 1, self.CLwidth, 1)];
-    self.bottomLine.backgroundColor = RGBACOLOR(0, 0, 0, 0.2);
     [self addSubview:self.bottomLine];
     //边框
-    self.edgeLineView = [[UIView alloc]init];
-    self.edgeLineView.CLwidth = self.CLwidth - 50 - 30;
-    self.edgeLineView.CLleft = 10;
-    self.edgeLineView.layer.cornerRadius = 5;
-    self.edgeLineView.layer.borderColor = RGBACOLOR(0, 0, 0, 0.5).CGColor;
-    self.edgeLineView.layer.borderWidth = 1;
-    self.edgeLineView.layer.masksToBounds = YES;
     [self addSubview:self.edgeLineView];
     //输入框
-    self.textView = [[UITextView alloc] init];;
-    self.textView.CLwidth = self.CLwidth - 50 - 46;
-    self.textView.CLleft = 18;
-    self.textView.enablesReturnKeyAutomatically = YES;
-    self.textView.delegate = self;
-    self.textView.layoutManager.allowsNonContiguousLayout = NO;
-    self.textView.scrollsToTop = NO;
-    self.textView.textContainerInset = UIEdgeInsetsZero;
-    self.textView.textContainer.lineFragmentPadding = 0;
     [self addSubview:self.textView];
-    self.textView.inputAccessoryView = self;
     //占位文字
-    self.placeholderLabel = [[UILabel alloc] init];
-    self.placeholderLabel.CLwidth = self.textView.CLwidth - 10;
-    self.placeholderLabel.textColor = RGBACOLOR(0, 0, 0, 0.5);
-    self.placeholderLabel.CLleft = 23;
     [self addSubview:self.placeholderLabel];
     //发送按钮
-    self.sendButton = [[UIButton alloc] initWithFrame:CGRectMake(self.CLwidth - 50 - 10, self.CLheight - 30 - 10, 50, 30)];
-    [self.sendButton.layer setBorderWidth:1.0];
-    [self.sendButton.layer setCornerRadius:5.0];
-    self.sendButton.layer.borderColor = RGBACOLOR(0, 0, 0, 0.5).CGColor;
-    self.sendButton.enabled = NO;
-    self.sendButton.titleLabel.font = [UIFont systemFontOfSize:16];
-    [self.sendButton setTitle:@"发送" forState:UIControlStateNormal];
-    [self.sendButton setTitleColor:RGBACOLOR(0, 0, 0, 0.2) forState:UIControlStateNormal];
-    [self.sendButton addTarget:self action:@selector(didClicksendButton) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.sendButton];
     self.fontSize = 20;
     self.textViewMaxLine = 3;
@@ -166,9 +128,9 @@
 }
 - (void)showToolbar{
     if (_showMaskView) {
-        [[UIApplication sharedApplication].keyWindow addSubview:self.maskView];
+        [self.keyWindow addSubview:self.maskView];
     }
-    [[UIApplication sharedApplication].keyWindow addSubview:self];
+    [self.keyWindow addSubview:self];
     self.fontSize = _fontSize;
     [self.textView becomeFirstResponder];
 }
@@ -200,6 +162,101 @@
     self.sendButton.CLcenterY = self.CLheight * 0.5;
     self.edgeLineView.CLcenterY = self.CLheight * 0.5;
     self.bottomLine.CLy = self.CLheight - 1;
-    
 }
+//MARK:JmoVxia---懒加载
+- (UIView *) maskView{
+    if (_maskView == nil){
+        _maskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CLscreenWidth, CLscreenHeight)];
+        _maskView.backgroundColor = [UIColor lightGrayColor];
+        _maskView.alpha = 0.5;
+        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapActions:)];
+        [_maskView addGestureRecognizer:tapGestureRecognizer];
+    }
+    return _maskView;
+}
+- (UIView *) topLine{
+    if (_topLine == nil){
+        _topLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.CLwidth, 1)];
+        _topLine.backgroundColor = RGBACOLOR(0, 0, 0, 0.2);
+    }
+    return _topLine;
+}
+- (UIView *) bottomLine{
+    if (_bottomLine == nil){
+        _bottomLine = [[UIView alloc] initWithFrame:CGRectMake(0, self.CLheight - 1, self.CLwidth, 1)];
+        _bottomLine.backgroundColor = RGBACOLOR(0, 0, 0, 0.2);
+    }
+    return _bottomLine;
+}
+- (UIView *) edgeLineView{
+    if (_edgeLineView == nil){
+        _edgeLineView = [[UIView alloc]init];
+        _edgeLineView.CLwidth = self.CLwidth - 50 - 30;
+        _edgeLineView.CLleft = 10;
+        _edgeLineView.layer.cornerRadius = 5;
+        _edgeLineView.layer.borderColor = RGBACOLOR(0, 0, 0, 0.5).CGColor;
+        _edgeLineView.layer.borderWidth = 1;
+        _edgeLineView.layer.masksToBounds = YES;
+    }
+    return _edgeLineView;
+}
+- (UITextView *) textView{
+    if (_textView == nil){
+        _textView = [[UITextView alloc] init];;
+        _textView.CLwidth = self.CLwidth - 50 - 46;
+        _textView.CLleft = 18;
+        _textView.enablesReturnKeyAutomatically = YES;
+        _textView.delegate = self;
+        _textView.layoutManager.allowsNonContiguousLayout = NO;
+        _textView.scrollsToTop = NO;
+        _textView.textContainerInset = UIEdgeInsetsZero;
+        _textView.textContainer.lineFragmentPadding = 0;
+        _textView.inputAccessoryView = self;
+    }
+    return _textView;
+}
+- (UILabel *)placeholderLabel{
+    if (_placeholderLabel == nil){
+        _placeholderLabel = [[UILabel alloc] init];
+        _placeholderLabel.CLwidth = self.textView.CLwidth - 10;
+        _placeholderLabel.textColor = RGBACOLOR(0, 0, 0, 0.5);
+        _placeholderLabel.CLleft = 23;
+    }
+    return _placeholderLabel;
+}
+- (UIButton *) sendButton{
+    if (_sendButton == nil){
+        _sendButton = [[UIButton alloc] initWithFrame:CGRectMake(self.CLwidth - 50 - 10, self.CLheight - 30 - 10, 50, 30)];
+        [_sendButton.layer setBorderWidth:1.0];
+        [_sendButton.layer setCornerRadius:5.0];
+        _sendButton.layer.borderColor = RGBACOLOR(0, 0, 0, 0.5).CGColor;
+        _sendButton.enabled = NO;
+        _sendButton.titleLabel.font = [UIFont systemFontOfSize:16];
+        [_sendButton setTitle:@"发送" forState:UIControlStateNormal];
+        [_sendButton setTitleColor:RGBACOLOR(0, 0, 0, 0.2) forState:UIControlStateNormal];
+        [_sendButton addTarget:self action:@selector(didClicksendButton) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _sendButton;
+}
+- (UIWindow *) keyWindow{
+    if (_keyWindow == nil){
+        _keyWindow = [UIApplication sharedApplication].keyWindow;
+    }
+    return _keyWindow;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @end
