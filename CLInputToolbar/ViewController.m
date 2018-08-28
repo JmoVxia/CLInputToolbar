@@ -19,7 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.btn = [[UIButton alloc] initWithFrame:CGRectMake(10, 30, self.view.cl_width - 20, 100)];
+    self.btn = [[UIButton alloc] init];
     [self.btn setBackgroundColor:[UIColor orangeColor]];
     [self.btn setTitle:@"点我" forState:UIControlStateNormal];
     [self.btn addTarget:self action:@selector(didTouchBtn) forControlEvents:UIControlEventTouchUpInside];
@@ -47,6 +47,9 @@
 -(void)didTouchBtn {
     [self.inputToolbar showToolbar];
 }
-
+-(void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    self.btn.frame = CGRectMake(10, 30, self.view.cl_width - 20, 100);
+}
 
 @end
