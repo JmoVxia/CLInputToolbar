@@ -39,7 +39,7 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        self.frame = CGRectMake(0,0, CLscreenWidth, 50);
+        self.frame = CGRectMake(0,0, cl_screenWidth, 50);
         [self initView];
     }
     return self;
@@ -70,8 +70,8 @@
     self.textView.font = [UIFont systemFontOfSize:_fontSize];
     self.placeholderLabel.font = self.textView.font;
     CGFloat lineH = self.textView.font.lineHeight;
-    self.CLheight = ceil(lineH) + 10 + 10;
-    self.textView.CLheight = lineH;
+    self.cl_height = ceil(lineH) + 10 + 10;
+    self.textView.cl_height = lineH;
 }
 - (void)setTextViewMaxLine:(NSInteger)textViewMaxLine {
     _textViewMaxLine = textViewMaxLine;
@@ -98,16 +98,16 @@
     CGFloat lineH = textView.font.lineHeight;
     CGFloat maxTextViewHeight = ceil(lineH * self.textViewMaxLine + textView.textContainerInset.top + textView.textContainerInset.bottom);
     if (contentSizeH <= maxTextViewHeight) {
-        textView.CLheight = contentSizeH;
+        textView.cl_height = contentSizeH;
     }else{
-        textView.CLheight = maxTextViewHeight;
+        textView.cl_height = maxTextViewHeight;
     }
     
-    CGFloat newHeight = ceil(textView.CLheight) + 10 + 10;
-    CGFloat change = newHeight - self.CLheight;
+    CGFloat newHeight = ceil(textView.cl_height) + 10 + 10;
+    CGFloat change = newHeight - self.cl_height;
     if (change != 0) {
-        self.CLheight = newHeight;
-        self.CLtop = self.CLtop - change;
+        self.cl_height = newHeight;
+        self.cl_top = self.cl_top - change;
     }
     [textView scrollRangeToVisible:NSMakeRange(textView.selectedRange.location, 1)];
 }
@@ -131,7 +131,6 @@
         [self.keyWindow addSubview:self.maskView];
     }
     [self.keyWindow addSubview:self];
-    self.fontSize = _fontSize;
     [self.textView becomeFirstResponder];
 }
 -(void)dissmissToolbar {
@@ -149,24 +148,58 @@
 }
 -(void)layoutSubviews{
     [super layoutSubviews];
-    CGFloat newHeight = ceil(_textView.CLheight) + 10 + 10;
-    CGFloat change = newHeight - self.CLheight;
-    if (change != 0) {
-        self.CLheight = newHeight;
-        self.CLtop = self.CLtop - change;
+    self.maskView.cl_size = CGSizeMake(cl_screenWidth, cl_screenHeight);
+    self.cl_width = cl_screenWidth;
+    self.topLine.cl_left = 0;
+    self.topLine.cl_top = 0;
+    self.topLine.cl_width = self.cl_width;
+    self.topLine.cl_height = 1;
+    
+    self.bottomLine.cl_left = 0;
+    self.bottomLine.cl_bottom = 0;
+    self.bottomLine.cl_width = self.cl_width;
+    self.bottomLine.cl_height = 1;
+    
+    self.edgeLineView.cl_height = self.textView.cl_height + 10;
+    self.edgeLineView.cl_width = self.cl_width - 50 - 30;
+    self.edgeLineView.cl_left = 10;
+    
+    self.textView.cl_width = self.cl_width - 50 - 46;
+    self.textView.cl_left = 18;
+    
+    self.placeholderLabel.cl_width = self.textView.cl_width - 10;
+    self.placeholderLabel.cl_left = 23;
+    self.placeholderLabel.cl_height = self.textView.cl_height;
+    
+    self.sendButton.cl_right = self.cl_width - 10;
+    self.sendButton.cl_width = 50;
+    self.sendButton.cl_height = 30;
+    
+    CGFloat contentSizeH = self.textView.contentSize.height;
+    CGFloat lineH = self.textView.font.lineHeight;
+    CGFloat maxTextViewHeight = ceil(lineH * self.textViewMaxLine + self.textView.textContainerInset.top + self.textView.textContainerInset.bottom);
+    if (contentSizeH <= maxTextViewHeight) {
+        self.textView.cl_height = contentSizeH;
+    }else{
+        self.textView.cl_height = maxTextViewHeight;
     }
-    self.edgeLineView.CLheight = self.textView.CLheight + 10;
-    self.textView.CLcenterY = self.CLheight * 0.5;
-    self.placeholderLabel.CLheight = self.textView.CLheight;
-    self.placeholderLabel.CLcenterY = self.CLheight * 0.5;
-    self.sendButton.CLcenterY = self.CLheight * 0.5;
-    self.edgeLineView.CLcenterY = self.CLheight * 0.5;
-    self.bottomLine.CLy = self.CLheight - 1;
+
+    CGFloat newHeight = ceil(self.textView.cl_height) + 10 + 10;
+    CGFloat change = newHeight - self.cl_height;
+    if (change != 0) {
+        self.cl_height = newHeight;
+        self.cl_top = self.cl_top - change;
+    }
+    
+    self.edgeLineView.cl_centerY = self.cl_height * 0.5;
+    self.textView.cl_centerY = self.cl_height * 0.5;
+    self.placeholderLabel.cl_centerY = self.cl_height * 0.5;
+    self.sendButton.cl_centerY = self.cl_height * 0.5;
 }
 //MARK:JmoVxia---懒加载
 - (UIView *) maskView{
     if (_maskView == nil){
-        _maskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CLscreenWidth, CLscreenHeight)];
+        _maskView = [[UIView alloc] init];
         _maskView.backgroundColor = [UIColor lightGrayColor];
         _maskView.alpha = 0.5;
         UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapActions:)];
@@ -176,14 +209,14 @@
 }
 - (UIView *) topLine{
     if (_topLine == nil){
-        _topLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.CLwidth, 1)];
+        _topLine = [[UIView alloc] init];
         _topLine.backgroundColor = RGBACOLOR(0, 0, 0, 0.2);
     }
     return _topLine;
 }
 - (UIView *) bottomLine{
     if (_bottomLine == nil){
-        _bottomLine = [[UIView alloc] initWithFrame:CGRectMake(0, self.CLheight - 1, self.CLwidth, 1)];
+        _bottomLine = [[UIView alloc] init];
         _bottomLine.backgroundColor = RGBACOLOR(0, 0, 0, 0.2);
     }
     return _bottomLine;
@@ -191,8 +224,6 @@
 - (UIView *) edgeLineView{
     if (_edgeLineView == nil){
         _edgeLineView = [[UIView alloc]init];
-        _edgeLineView.CLwidth = self.CLwidth - 50 - 30;
-        _edgeLineView.CLleft = 10;
         _edgeLineView.layer.cornerRadius = 5;
         _edgeLineView.layer.borderColor = RGBACOLOR(0, 0, 0, 0.5).CGColor;
         _edgeLineView.layer.borderWidth = 1;
@@ -203,8 +234,6 @@
 - (UITextView *) textView{
     if (_textView == nil){
         _textView = [[UITextView alloc] init];;
-        _textView.CLwidth = self.CLwidth - 50 - 46;
-        _textView.CLleft = 18;
         _textView.enablesReturnKeyAutomatically = YES;
         _textView.delegate = self;
         _textView.layoutManager.allowsNonContiguousLayout = NO;
@@ -218,15 +247,13 @@
 - (UILabel *)placeholderLabel{
     if (_placeholderLabel == nil){
         _placeholderLabel = [[UILabel alloc] init];
-        _placeholderLabel.CLwidth = self.textView.CLwidth - 10;
         _placeholderLabel.textColor = RGBACOLOR(0, 0, 0, 0.5);
-        _placeholderLabel.CLleft = 23;
     }
     return _placeholderLabel;
 }
 - (UIButton *) sendButton{
     if (_sendButton == nil){
-        _sendButton = [[UIButton alloc] initWithFrame:CGRectMake(self.CLwidth - 50 - 10, self.CLheight - 30 - 10, 50, 30)];
+        _sendButton = [[UIButton alloc] init];
         [_sendButton.layer setBorderWidth:1.0];
         [_sendButton.layer setCornerRadius:5.0];
         _sendButton.layer.borderColor = RGBACOLOR(0, 0, 0, 0.5).CGColor;

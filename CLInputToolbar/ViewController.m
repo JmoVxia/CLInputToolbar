@@ -19,7 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.btn = [[UIButton alloc] initWithFrame:CGRectMake(10, 30, self.view.CLwidth - 20, 100)];
+    self.btn = [[UIButton alloc] initWithFrame:CGRectMake(10, 30, self.view.cl_width - 20, 100)];
     [self.btn setBackgroundColor:[UIColor orangeColor]];
     [self.btn setTitle:@"点我" forState:UIControlStateNormal];
     [self.btn addTarget:self action:@selector(didTouchBtn) forControlEvents:UIControlEventTouchUpInside];

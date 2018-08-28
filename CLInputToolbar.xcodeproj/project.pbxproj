@@ -7,17 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C637DB52135747100D500AF /* UIView+CLSetRect.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C637DB42135747100D500AF /* UIView+CLSetRect.m */; };
 		5BD1A0481F441FBB00B4F7C0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1A0471F441FBB00B4F7C0 /* main.m */; };
 		5BD1A04B1F441FBB00B4F7C0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1A04A1F441FBB00B4F7C0 /* AppDelegate.m */; };
 		5BD1A04E1F441FBB00B4F7C0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1A04D1F441FBB00B4F7C0 /* ViewController.m */; };
 		5BD1A0511F441FBB00B4F7C0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BD1A04F1F441FBB00B4F7C0 /* Main.storyboard */; };
 		5BD1A0531F441FBB00B4F7C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BD1A0521F441FBB00B4F7C0 /* Assets.xcassets */; };
 		5BD1A0561F441FBB00B4F7C0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BD1A0541F441FBB00B4F7C0 /* LaunchScreen.storyboard */; };
-		5BD1A07B1F4424FA00B4F7C0 /* UIView+CLSetRect.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1A07A1F4424FA00B4F7C0 /* UIView+CLSetRect.m */; };
 		5BD1A07E1F44251600B4F7C0 /* CLInputToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD1A07D1F44251600B4F7C0 /* CLInputToolbar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0C637DB32135747100D500AF /* UIView+CLSetRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+CLSetRect.h"; sourceTree = "<group>"; };
+		0C637DB42135747100D500AF /* UIView+CLSetRect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CLSetRect.m"; sourceTree = "<group>"; };
 		5BD1A0431F441FBB00B4F7C0 /* CLInputToolbar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CLInputToolbar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BD1A0471F441FBB00B4F7C0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5BD1A0491F441FBB00B4F7C0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -28,8 +30,6 @@
 		5BD1A0521F441FBB00B4F7C0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5BD1A0551F441FBB00B4F7C0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5BD1A0571F441FBB00B4F7C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5BD1A0791F4424FA00B4F7C0 /* UIView+CLSetRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+CLSetRect.h"; sourceTree = "<group>"; };
-		5BD1A07A1F4424FA00B4F7C0 /* UIView+CLSetRect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CLSetRect.m"; sourceTree = "<group>"; };
 		5BD1A07C1F44251600B4F7C0 /* CLInputToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLInputToolbar.h; sourceTree = "<group>"; };
 		5BD1A07D1F44251600B4F7C0 /* CLInputToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLInputToolbar.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -68,8 +68,8 @@
 				5BD1A04A1F441FBB00B4F7C0 /* AppDelegate.m */,
 				5BD1A04C1F441FBB00B4F7C0 /* ViewController.h */,
 				5BD1A04D1F441FBB00B4F7C0 /* ViewController.m */,
-				5BD1A0791F4424FA00B4F7C0 /* UIView+CLSetRect.h */,
-				5BD1A07A1F4424FA00B4F7C0 /* UIView+CLSetRect.m */,
+				0C637DB32135747100D500AF /* UIView+CLSetRect.h */,
+				0C637DB42135747100D500AF /* UIView+CLSetRect.m */,
 				5BD1A07C1F44251600B4F7C0 /* CLInputToolbar.h */,
 				5BD1A07D1F44251600B4F7C0 /* CLInputToolbar.m */,
 				5BD1A0461F441FBB00B4F7C0 /* Supporting Files */,
@@ -161,9 +161,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C637DB52135747100D500AF /* UIView+CLSetRect.m in Sources */,
 				5BD1A04E1F441FBB00B4F7C0 /* ViewController.m in Sources */,
 				5BD1A04B1F441FBB00B4F7C0 /* AppDelegate.m in Sources */,
-				5BD1A07B1F4424FA00B4F7C0 /* UIView+CLSetRect.m in Sources */,
 				5BD1A0481F441FBB00B4F7C0 /* main.m in Sources */,
 				5BD1A07E1F44251600B4F7C0 /* CLInputToolbar.m in Sources */,
 			);
