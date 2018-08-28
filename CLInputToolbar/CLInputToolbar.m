@@ -27,7 +27,7 @@
 /**键盘高度*/
 @property (nonatomic, assign) CGFloat keyboardHeight;
 /**发送回调*/
-@property (nonatomic, copy) inputTextBlock inputTextBlock;
+@property (nonatomic, copy) inputToolBarSendBlock sendBlock;
 
 @end
 
@@ -141,14 +141,17 @@
     }
     [textView scrollRangeToVisible:NSMakeRange(textView.selectedRange.location, 1)];
 }
+- (NSString *)inputText {
+    return self.textView.text;
+}
 // 发送按钮
 -(void)didClicksendButton {
-    if (self.inputTextBlock) {
-        self.inputTextBlock(self.textView.text);
+    if (self.sendBlock) {
+        self.sendBlock(self.textView.text);
     }
 }
-- (void)inputToolbarSendText:(inputTextBlock)sendText{
-    self.inputTextBlock = sendText;
+- (void)inputToolbarSendText:(inputToolBarSendBlock)sendBlock{
+    self.sendBlock = sendBlock;
 }
 - (void)showToolbar{
     [[UIApplication sharedApplication].keyWindow addSubview:self];

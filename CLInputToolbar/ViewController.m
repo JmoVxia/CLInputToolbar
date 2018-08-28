@@ -44,6 +44,7 @@
     __weak __typeof(self) weakSelf = self;
     [self.inputToolbar inputToolbarSendText:^(NSString *text) {
         __typeof(&*weakSelf) strongSelf = weakSelf;
+        NSLog(@"%@",strongSelf.inputToolbar.inputText);
         [strongSelf.btn setTitle:text forState:UIControlStateNormal];
         // 清空输入框文字
         [strongSelf.inputToolbar clearText];

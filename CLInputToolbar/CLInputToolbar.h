@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void(^inputTextBlock)(NSString *text);
+typedef void(^inputToolBarSendBlock)(NSString *text);
 
 @interface CLInputToolbar : UIView
 
@@ -18,13 +18,15 @@ typedef void(^inputTextBlock)(NSString *text);
 @property (nonatomic, assign) CGFloat fontSize;
 /**占位文字*/
 @property (nonatomic, copy) NSString *placeholder;
-
+/*输入的文字*/
+@property (nonatomic, readonly, copy) NSString *inputText;
 /**弹出键盘*/
 - (void)showToolbar;
 /**收回键盘*/
 - (void)dissmissToolbar;
 /**清空文字*/
 - (void)clearText;
-/**点击发送后的文字*/
-- (void)inputToolbarSendText:(inputTextBlock)sendText;
+/**点击发送按钮*/
+- (void)inputToolbarSendText:(inputToolBarSendBlock)sendBlock;
+
 @end
