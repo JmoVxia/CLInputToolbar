@@ -35,9 +35,8 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        self.frame = CGRectMake(0,CLscreenHeight, CLscreenWidth, 50);
+        self.frame = CGRectMake(0,0, CLscreenWidth, 50);
         [self initView];
-        [self addNotification];
     }
     return self;
 }
@@ -71,6 +70,7 @@
     self.textView.textContainerInset = UIEdgeInsetsZero;
     self.textView.textContainer.lineFragmentPadding = 0;
     [self addSubview:self.textView];
+    self.textView.inputAccessoryView = self;
     //占位文字
     self.placeholderLabel = [[UILabel alloc] init];
     self.placeholderLabel.CLwidth = self.textView.CLwidth - 10;
@@ -91,11 +91,7 @@
     self.fontSize = 20;
     self.textViewMaxLine = 3;
 }
-// 添加通知
--(void)addNotification {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHidden:) name:UIKeyboardWillHideNotification object:nil];
-}
+
 -(void)setFontSize:(CGFloat)fontSize{
     _fontSize = fontSize;
     if (!fontSize || _fontSize < 20) {
@@ -117,21 +113,7 @@
     _placeholder = placeholder;
     self.placeholderLabel.text = placeholder;
 }
-#pragma mark keyboardnotification
-- (void)keyboardWillShow:(NSNotification *)notification {
-    CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    _keyboardHeight = keyboardFrame.size.height;
-    CGFloat duration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    [UIView animateWithDuration:duration animations:^{
-        self.CLy = keyboardFrame.origin.y - self.CLheight;
-    }];
-}
-- (void)keyboardWillHidden:(NSNotification *)notification {
-    CGFloat duration = [notification.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    [UIView animateWithDuration:duration animations:^{
-        self.CLy = CLscreenHeight;
-    }];
-}
+
 #pragma mark UITextViewDelegate
 - (void)textViewDidChange:(UITextView *)textView {
     self.placeholderLabel.hidden = textView.text.length;
@@ -150,8 +132,13 @@
     }else{
         textView.CLheight = maxTextViewHeight;
     }
-    self.CLheight = ceil(textView.CLheight) + 10 + 10;
-    self.CLbottom = CLscreenHeight - _keyboardHeight;
+    
+    CGFloat newHeight = ceil(textView.CLheight) + 10 + 10;
+    CGFloat change = newHeight - self.CLheight;
+    if (change != 0) {
+        self.CLheight = newHeight;
+        self.CLtop = self.CLtop - change;
+    }
     [textView scrollRangeToVisible:NSMakeRange(textView.selectedRange.location, 1)];
 }
 // 发送按钮
@@ -163,18 +150,29 @@
 - (void)inputToolbarSendText:(inputTextBlock)sendText{
     self.inputTextBlock = sendText;
 }
-- (void)popToolbar{
+- (void)showToolbar{
+    [[UIApplication sharedApplication].keyWindow addSubview:self];
     self.fontSize = _fontSize;
     [self.textView becomeFirstResponder];
 }
-// 发送成功 清空文字 更新输入框大小
--(void)bounceToolbar {
+-(void)dissmissToolbar {
     self.textView.text = nil;
     [self.textView.delegate textViewDidChange:self.textView];
     [self endEditing:YES];
+    [self removeFromSuperview];
+}
+- (void)clearText {
+    self.textView.text = nil;
+    [self.textView.delegate textViewDidChange:self.textView];
 }
 -(void)layoutSubviews{
     [super layoutSubviews];
+    CGFloat newHeight = ceil(_textView.CLheight) + 10 + 10;
+    CGFloat change = newHeight - self.CLheight;
+    if (change != 0) {
+        self.CLheight = newHeight;
+        self.CLtop = self.CLtop - change;
+    }
     self.edgeLineView.CLheight = self.textView.CLheight + 10;
     self.textView.CLcenterY = self.CLheight * 0.5;
     self.placeholderLabel.CLheight = self.textView.CLheight;
@@ -182,12 +180,6 @@
     self.sendButton.CLcenterY = self.CLheight * 0.5;
     self.edgeLineView.CLcenterY = self.CLheight * 0.5;
     self.bottomLine.CLy = self.CLheight - 1;
+    
 }
-
-- (void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-
-
 @end

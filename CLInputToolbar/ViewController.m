@@ -25,7 +25,6 @@
     [self.btn setTitle:@"点我" forState:UIControlStateNormal];
     [self.btn addTarget:self action:@selector(didTouchBtn) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.btn];
-    
     // 输入框
     [self setTextViewToolbar];
 }
@@ -47,19 +46,17 @@
         __typeof(&*weakSelf) strongSelf = weakSelf;
         [strongSelf.btn setTitle:text forState:UIControlStateNormal];
         // 清空输入框文字
-        [strongSelf.inputToolbar bounceToolbar];
-        strongSelf.maskView.hidden = YES;
+        [strongSelf.inputToolbar clearText];
     }];
-    [self.maskView addSubview:self.inputToolbar];
 }
 
 -(void)didTouchBtn {
     self.maskView.hidden = NO;
-    [self.inputToolbar popToolbar];
+    [self.inputToolbar showToolbar];
 }
 -(void)tapActions:(UITapGestureRecognizer *)tap {
-    [self.inputToolbar bounceToolbar];
     self.maskView.hidden = YES;
+    [self.inputToolbar dissmissToolbar];
 }
 
 

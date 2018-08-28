@@ -19,10 +19,12 @@ typedef void(^inputTextBlock)(NSString *text);
 /**占位文字*/
 @property (nonatomic, copy) NSString *placeholder;
 
-/**收回键盘*/
--(void)bounceToolbar;
 /**弹出键盘*/
-- (void)popToolbar;
+- (void)showToolbar;
+/**收回键盘*/
+- (void)dissmissToolbar;
+/**清空文字*/
+- (void)clearText;
 /**点击发送后的文字*/
 - (void)inputToolbarSendText:(inputTextBlock)sendText;
 @end
