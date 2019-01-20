@@ -14,6 +14,8 @@
 @interface CLInputToolbar ()<UITextViewDelegate>
 /*遮罩*/
 @property (nonatomic, strong) UIView *maskView;
+/*遮罩*/
+@property (nonatomic, strong) UIView *backgroundView;
 /**文本输入框*/
 @property (nonatomic, strong) UITextView *textView;
 /**边框*/
@@ -45,7 +47,7 @@
     return self;
 }
 -(void)initView {
-    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = [UIColor clearColor];
     //顶部线条
     [self addSubview:self.topLine];
     //底部线条
@@ -130,14 +132,15 @@
     if (_showMaskView) {
         [self.keyWindow addSubview:self.maskView];
     }
-    [self.keyWindow addSubview:self];
+    [self.keyWindow addSubview:self.backgroundView];
+    [self.backgroundView addSubview:self.textView];
     [self.textView becomeFirstResponder];
 }
 -(void)dissmissToolbar {
     self.textView.text = nil;
     [self.textView.delegate textViewDidChange:self.textView];
-    [self endEditing:YES];
-    [self removeFromSuperview];
+    [self.textView resignFirstResponder];
+    [self.backgroundView removeFromSuperview];
     if (_showMaskView) {
         [self.maskView removeFromSuperview];
     }
@@ -192,9 +195,10 @@
     }
     
     self.edgeLineView.cl_centerY = self.cl_height * 0.5;
-    self.textView.cl_centerY = self.cl_height * 0.5;
     self.placeholderLabel.cl_centerY = self.cl_height * 0.5;
     self.sendButton.cl_centerY = self.cl_height * 0.5;
+    self.backgroundView.frame = [self convertRect:self.bounds toView:self.keyWindow];
+    self.textView.cl_centerY = self.backgroundView.cl_height * 0.5;
 }
 //MARK:JmoVxia---懒加载
 - (UIView *) maskView{
@@ -207,6 +211,14 @@
     }
     return _maskView;
 }
+- (UIView *) backgroundView{
+    if (_backgroundView == nil){
+        _backgroundView = [[UIView alloc] init];
+        _backgroundView.backgroundColor = [UIColor whiteColor];
+    }
+    return _backgroundView;
+}
+
 - (UIView *) topLine{
     if (_topLine == nil){
         _topLine = [[UIView alloc] init];
