@@ -12,6 +12,7 @@
 #define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:(a)]
 
 @interface CLInputToolbar ()<UITextViewDelegate>
+
 /*遮罩*/
 @property (nonatomic, strong) UIView *maskView;
 /*遮罩*/
@@ -30,8 +31,6 @@
 @property (nonatomic, strong) UIButton *sendButton;
 /*keyWindow*/
 @property (nonatomic, strong) UIWindow *keyWindow;
-/**键盘高度*/
-@property (nonatomic, assign) CGFloat keyboardHeight;
 /**发送回调*/
 @property (nonatomic, copy) inputToolBarSendBlock sendBlock;
 
@@ -41,13 +40,13 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        self.frame = CGRectMake(0,0, cl_screenWidth, 50);
         [self initView];
     }
     return self;
 }
 -(void)initView {
     self.backgroundColor = [UIColor clearColor];
+    self.frame = CGRectMake(0,0, cl_screenWidth, 50);
     //顶部线条
     [self addSubview:self.topLine];
     //底部线条
@@ -218,7 +217,6 @@
     }
     return _backgroundView;
 }
-
 - (UIView *) topLine{
     if (_topLine == nil){
         _topLine = [[UIView alloc] init];
@@ -266,8 +264,8 @@
 - (UIButton *) sendButton{
     if (_sendButton == nil){
         _sendButton = [[UIButton alloc] init];
-        [_sendButton.layer setBorderWidth:1.0];
-        [_sendButton.layer setCornerRadius:5.0];
+        _sendButton.layer.borderWidth = 1.0;
+        _sendButton.layer.cornerRadius = 5.0;
         _sendButton.layer.borderColor = RGBACOLOR(0, 0, 0, 0.5).CGColor;
         _sendButton.enabled = NO;
         _sendButton.titleLabel.font = [UIFont systemFontOfSize:16];
@@ -283,19 +281,13 @@
     }
     return _keyWindow;
 }
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    UIView *hitView = [super hitTest:point withEvent:event];
+    if (CGRectContainsPoint(self.textView.frame, point)) {
+        return self.textView;
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    return hitView;
+}
 
 @end
