@@ -49,7 +49,7 @@
 }
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    self.btn.frame = CGRectMake(10, 30, self.view.cl_width - 20, 100);
+    self.btn.frame = CGRectMake(10, 90, self.view.cl_width - 20, 100);
 }
 
 @end

@@ -12,8 +12,11 @@
 #define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:(a)]
 
 @interface CLInputToolbar ()<UITextViewDelegate>
+
 /*遮罩*/
 @property (nonatomic, strong) UIView *maskView;
+/*遮罩*/
+@property (nonatomic, strong) UIView *backgroundView;
 /**文本输入框*/
 @property (nonatomic, strong) UITextView *textView;
 /**边框*/
@@ -28,8 +31,6 @@
 @property (nonatomic, strong) UIButton *sendButton;
 /*keyWindow*/
 @property (nonatomic, strong) UIWindow *keyWindow;
-/**键盘高度*/
-@property (nonatomic, assign) CGFloat keyboardHeight;
 /**发送回调*/
 @property (nonatomic, copy) inputToolBarSendBlock sendBlock;
 
@@ -39,13 +40,13 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        self.frame = CGRectMake(0,0, cl_screenWidth, 50);
         [self initView];
     }
     return self;
 }
 -(void)initView {
-    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = [UIColor clearColor];
+    self.frame = CGRectMake(0,0, cl_screenWidth, 50);
     //顶部线条
     [self addSubview:self.topLine];
     //底部线条
@@ -130,14 +131,15 @@
     if (_showMaskView) {
         [self.keyWindow addSubview:self.maskView];
     }
-    [self.keyWindow addSubview:self];
+    [self.keyWindow addSubview:self.backgroundView];
+    [self.backgroundView addSubview:self.textView];
     [self.textView becomeFirstResponder];
 }
 -(void)dissmissToolbar {
     self.textView.text = nil;
     [self.textView.delegate textViewDidChange:self.textView];
-    [self endEditing:YES];
-    [self removeFromSuperview];
+    [self.textView resignFirstResponder];
+    [self.backgroundView removeFromSuperview];
     if (_showMaskView) {
         [self.maskView removeFromSuperview];
     }
@@ -192,9 +194,10 @@
     }
     
     self.edgeLineView.cl_centerY = self.cl_height * 0.5;
-    self.textView.cl_centerY = self.cl_height * 0.5;
     self.placeholderLabel.cl_centerY = self.cl_height * 0.5;
     self.sendButton.cl_centerY = self.cl_height * 0.5;
+    self.backgroundView.frame = [self convertRect:self.bounds toView:self.keyWindow];
+    self.textView.cl_centerY = self.backgroundView.cl_height * 0.5;
 }
 //MARK:JmoVxia---懒加载
 - (UIView *) maskView{
@@ -206,6 +209,13 @@
         [_maskView addGestureRecognizer:tapGestureRecognizer];
     }
     return _maskView;
+}
+- (UIView *) backgroundView{
+    if (_backgroundView == nil){
+        _backgroundView = [[UIView alloc] init];
+        _backgroundView.backgroundColor = [UIColor whiteColor];
+    }
+    return _backgroundView;
 }
 - (UIView *) topLine{
     if (_topLine == nil){
@@ -254,8 +264,8 @@
 - (UIButton *) sendButton{
     if (_sendButton == nil){
         _sendButton = [[UIButton alloc] init];
-        [_sendButton.layer setBorderWidth:1.0];
-        [_sendButton.layer setCornerRadius:5.0];
+        _sendButton.layer.borderWidth = 1.0;
+        _sendButton.layer.cornerRadius = 5.0;
         _sendButton.layer.borderColor = RGBACOLOR(0, 0, 0, 0.5).CGColor;
         _sendButton.enabled = NO;
         _sendButton.titleLabel.font = [UIFont systemFontOfSize:16];
@@ -271,19 +281,13 @@
     }
     return _keyWindow;
 }
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    UIView *hitView = [super hitTest:point withEvent:event];
+    if (CGRectContainsPoint(self.textView.frame, point)) {
+        return self.textView;
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+    return hitView;
+}
 
 @end
