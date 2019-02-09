@@ -13,9 +13,9 @@
 
 @interface CLInputToolbar ()<UITextViewDelegate>
 
-/*遮罩*/
+/**遮罩*/
 @property (nonatomic, strong) UIView *maskView;
-/*遮罩*/
+/**背景*/
 @property (nonatomic, strong) UIView *backgroundView;
 /**文本输入框*/
 @property (nonatomic, strong) UITextView *textView;
